@@ -32,13 +32,18 @@ $(function(){
 
     //locatie keuze
     $("ul#locationList").on("click","li", function(){
-        console.log($(this).text(), $(this).attr("data-gameId"));
+        console.log($(this).text(), $(this).attr("data-locationId"));
         //alert($(this).text());
+        locationId= $(this).attr("data-locationId")
 
         //save game
-        Game.setLocation(Socket.conn(),$(this).attr("data-gameId"));
+        Game.setLocation(Socket.conn(),Game.gameId,locationId);
 
-        //Show Users
+        //Hidden
+        $('#setLocation').modal('hide');
+
+        //save client
+        Game.getLocationName(Socket.conn(),Game.gameId);
 
 
         //If location already exist or not
@@ -59,6 +64,10 @@ $(function(){
         //Game.getGameLocation(Socket.conn());
     });
 
+    // start Game
+
+
+
 
 
 
@@ -75,12 +84,42 @@ function changeGameName(elem){
     // change game
     console.log($(elem).text(),$(elem).attr("data-gameId"));
     $('#recipient-name-setGameName').val($(elem).text());
+    // get all locations
+
     $('#StartsetGameName').modal('show');
     Game.gameId = $(elem).attr("data-gameId");
 
+}
+
+function changeLocationName(elem){
+    console.log("change location");
+    // change game
+    console.log($(elem).text(),$(elem).attr("data-gameId"));
+    // Get location names
+    Game.getAllLocation(Socket.conn());
+
+    // show modal
+    $('#setLocation').modal('show');
+
+
+    // save gameId
+    Game.gameId = $(elem).attr("data-gameId");
+    Game.elementedite = elem;
+
+}
+
+
+function startGame(elem){
+    console.log("Start Game location");
+    // change game
+    console.log($(elem).attr("data-gameId"));
+
+    Game.startGame(Socket.conn(),$(elem).attr("data-gameId"));
 
 
 }
+
+
 
 function onDeviceReady() {
     console.log('Device is ready');

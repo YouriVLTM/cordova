@@ -1,6 +1,6 @@
 let Game = function () {
-    let games;
     let gameId;
+    let elementedite;
 
     let init = function(socket){
         socket.on('connect', function() {
@@ -19,6 +19,45 @@ let Game = function () {
     let setName = function(socket,gameId,name){
         socket.emit('games.setName', {gameId:gameId,name : name});
     }
+
+    let setLocation = function(socket,gameId,locationId){
+        console.log("set location");
+        // lokaal opslaan
+        //_setLocalStorageGame('locationId', locationId);
+
+        // server save
+        socket.emit('games.setLocation', { gameId : gameId, locationId : locationId});
+
+
+    };
+
+    let getLocation = function(socket,gameId){
+        console.log("get location");
+
+        // server
+        socket.emit('games.getLocation', { gameId : gameId});
+
+    }
+
+    let getLocationName = function(socket,gameId){
+        console.log("get location name");
+
+        // server
+        socket.emit('games.getLocationName', { gameId : gameId});
+
+    }
+
+
+
+
+    let getAllLocation = function(socket){
+        //gameId ophalen
+        console.log('get all locations');
+
+        // kijken of er al een game location bestaat
+        socket.emit('games.getAllLocation', { gameId : _getLocalStorageGame('gameId')});
+
+    };
 
 
 
@@ -47,31 +86,19 @@ let Game = function () {
     };
 
 
-    let getGameLocation = function(socket){
-        //gameId ophalen
-        console.log(_getLocalStorageGame('gameId'));
 
-        // kijken of er al een game location bestaat
-        socket.emit('games.getLocation', { gameId : _getLocalStorageGame('gameId')});
-
-    };
 
     let setGame = function(gameId){
         console.log("setnewgame");
         _setLocalStorageGame('gameId', gameId);
     };
 
-    let setLocation = function(socket,locationId){
-        console.log("setnewlocation");
-        // lokaal opslaan
-        _setLocalStorageGame('locationId', locationId);
 
-        // server opslaan
-        socket.emit('games.setLocation', { gameId : _getLocalStorageGame('gameId'), locationId : locationId});
+    let startGame = function(socket,gameId){
+        console.log("Get game",gameId);
+        socket.emit('games.startGame', {gameId : gameId});
 
-        $('#setNewLocation').modal('hide');
-
-    };
+    }
 
 
 
@@ -106,15 +133,16 @@ let Game = function () {
             //maak lijst leeg
             $("#gameslist").empty();
             $.each(message.data, function(i, game) {
+                getLocationName(Socket.conn(), game.id);
                 $(  ' <div class="card mb-3">\n' +
                     '                       <div class="card-body">\n' +
                     '                           <h5 class="card-title"><button type="button" class="btn btn-primary" onclick="changeGameName(this)" data-gameId='+game.id+'>'+game.name+'</button></h5>\n' +
                     '                           <ul class="list-unstyled">\n' +
-                    '                               <li class=\'text-left\'>Location : <button type="button" onclick="changeLocationName()" class="btn btn-info">'+game.locationId+'</button></li>\n' +
-                    '                               <li class=\'text-left\'>Aantal gebruikers : 2</li>\n' +
-                    '                               <li class=\'text-left\'>Game : Actief</li>\n' +
+                    '                               <li class=\'text-left\'>Location : <button type="button" onclick="changeLocationName(this)" data-gameId='+game.id+' class="btn btn-info">'+game.locationName+'</button></li>\n' +
+                    '                               <li class=\'text-left\'>Aantal gebruikers : '+game.users.length+'</li>\n' +
+                    '                               <li class=\'text-left\'>Game : '+game.active+'</li>\n' +
                     '                           </ul>\n' +
-                    '                           <button type="button" class="btn btn-success">Start</button>\n' +
+                    '                           <button type="button" class="btn btn-success" onclick="startGame(this)" data-gameId='+game.id+'>Start</button>\n' +
                     '                       </div>\n' +
                     '                   </div>'
                 ).addClass('newClass').appendTo('#gameslist');
@@ -122,9 +150,20 @@ let Game = function () {
 
         });
 
-        socket.on('games.getLocation', function(message) {
+        socket.on('games.getAllLocation', function(message) {
             // als error
             receiv = message.data;
+            console.log(receiv);
+
+            // leegmaken
+            $("#locationList").empty();
+
+            $.each(receiv, function(i, location) {
+                $("#locationList").append( "<li class='list-group-item' data-locationId='"+ location.id +"'>" + location.name + "</li>" );
+            });
+
+            /*
+
             if(!receiv.hasOwnProperty('error')){
                 if(receiv.isValid){
                     //locatie beschikbaar (ga naar users aanmaken)
@@ -132,15 +171,10 @@ let Game = function () {
                 }else{
                     // geen locatie beschikbaar ( nog een locatie selecteren)
                     //window.location = 'locationlist.html';
-                    $('#setNewLocation').modal('show');
+
                     // kijken naar al de locatie's
                     console.log("datalocation: ", receiv.dataLocations);
-                    // leegmaken
-                    $("#locationList").empty();
 
-                    $.each(receiv.dataLocations, function(i, location) {
-                        $("#locationList").append( "<li class='list-group-item' data-gameId='"+ location.id +"'>" + location.name + "</li>" );
-                    });
 
                 }
                 console.log("Geen error");
@@ -148,8 +182,32 @@ let Game = function () {
                 console.log(receiv.error);
                 $.snackbar({content: receiv.error});
             }
+            */
 
         });
+
+        socket.on('games.getLocationName', function(message) {
+            console.log(message.data);
+            $(Game.elementedite).text(message.data.locationName);
+
+        });
+
+        socket.on('games.startGame', function(message) {
+            console.log(message.data);
+            _setLocalStorageGame("gameId",message.data.id);
+
+            window.location = "users.html";
+
+
+
+
+
+        });
+
+
+
+
+
 
     }
 
@@ -160,8 +218,11 @@ let Game = function () {
         findAllGames: findAllGames,
         setGame: setGame,
         setLocation: setLocation,
-        getGameLocation: getGameLocation,
         changeGameName:changeGameName,
-        setName:setName
+        setName:setName,
+        getLocation:getLocation,
+        getLocationName:getLocationName,
+        startGame:startGame,
+        getAllLocation:getAllLocation
     };
 }();
