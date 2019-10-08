@@ -8,7 +8,7 @@ let Game = function () {
         });
         _receiveSocket(socket);
 
-        findAllGames(socket);
+        getAllGames(socket);
 
 
         //console.log("games init", Socket.send('games.findAll',''));
@@ -16,22 +16,36 @@ let Game = function () {
 
     // New
 
-    let findAllGames = function(socket){
-        socket.emit('games.findAll', '');
+    let getAllGames = function(socket){
+        socket.emit('games.getAll', '');
     }
     let addNewGame = function(socket,gameName){
         socket.emit('games.createNewGame', {name : gameName});
 
         // get games
-        findAllGames(socket);
+        getAllGames(socket);
     };
 
-    
+    let setName = function(socket,gameId,name){
+        socket.emit('game.setName', {gameId:gameId,name : name});
+    }
+
+    let getAllPlaces = function(socket){
+        socket.emit('games.getAllPlace', '');
+    }
+
+    let setPlaceId = function(socket,gameId,placeId){
+        console.log("game select",);
+        socket.emit('games.setPlaceId', {gameId:gameId,placeId:placeId});
+    }
+
+
+
+
+
     // New Youri
 
-    let setName = function(socket,gameId,name){
-        socket.emit('games.setName', {gameId:gameId,name : name});
-    }
+/*
 
     let setLocation = function(socket,gameId,locationId){
         console.log("set location");
@@ -75,32 +89,6 @@ let Game = function () {
 
 
 
-    //old Youri
-
-    let findAllGames = function(socket){
-        // Get all games
-        //socket.on('connect', function() {
-        socket.emit('games.findAll', '');
-
-        //});
-    }
-    let addNewGame = function(socket,gameName){
-        console.log("New game :", gameName);
-        // socket
-        //socket.on('connect', function() {
-        socket.emit('games.creatNewGame', {name : gameName});
-        findAllGames(socket);
-            /*socket.on('games.creatNewGame', function(message) {
-                console.log(message.data);
-            });
-            */
-       //});
-
-    };
-
-
-
-
     let setGame = function(gameId){
         console.log("setnewgame");
         _setLocalStorageGame('gameId', gameId);
@@ -113,8 +101,7 @@ let Game = function () {
 
     }
 
-
-
+*/
 
 
     let _setLocalStorageGame = function(variable,data) {
@@ -139,19 +126,18 @@ let Game = function () {
 
     let _receiveSocket = function(socket){
 
-        socket.on('games.findAll', function(message) {
+        socket.on('games.getAll', function(message) {
             console.log(message.data);
             $('#loadingGames').hide();
 
             //maak lijst leeg
             $("#gameslist").empty();
             $.each(message.data, function(i, game) {
-                getLocationName(Socket.conn(), game.id);
                 $(  ' <div class="card mb-3">\n' +
                     '                       <div class="card-body">\n' +
                     '                           <h5 class="card-title"><button type="button" class="btn btn-primary" onclick="changeGameName(this)" data-gameId='+game.id+'>'+game.name+'</button></h5>\n' +
                     '                           <ul class="list-unstyled">\n' +
-                    '                               <li class=\'text-left\'>Location : <button type="button" onclick="changeLocationName(this)" data-gameId='+game.id+' class="btn btn-info">'+game.locationName+'</button></li>\n' +
+                    '                               <li class=\'text-left\'>Plaats : <button type="button" onclick="changePlace(this)" data-gameId='+game.id+' class="btn btn-info">'+game.placeName+'</button></li>\n' +
                     '                               <li class=\'text-left\'>Aantal gebruikers : '+game.users.length+'</li>\n' +
                     '                               <li class=\'text-left\'>Game : '+game.active+'</li>\n' +
                     '                           </ul>\n' +
@@ -163,41 +149,20 @@ let Game = function () {
 
         });
 
-        socket.on('games.getAllLocation', function(message) {
+        socket.on('games.getAllPlace', function(message) {
             // als error
             receiv = message.data;
             console.log(receiv);
-
             // leegmaken
-            $("#locationList").empty();
+            $("#placeList").empty();
 
-            $.each(receiv, function(i, location) {
-                $("#locationList").append( "<li class='list-group-item' data-locationId='"+ location.id +"'>" + location.name + "</li>" );
+            $.each(receiv, function(i, place) {
+                $("#placeList").append( "<li class='list-group-item' data-locationId='"+ place.id +"'>" + place.name + "</li>" );
             });
 
-            /*
-
-            if(!receiv.hasOwnProperty('error')){
-                if(receiv.isValid){
-                    //locatie beschikbaar (ga naar users aanmaken)
-
-                }else{
-                    // geen locatie beschikbaar ( nog een locatie selecteren)
-                    //window.location = 'locationlist.html';
-
-                    // kijken naar al de locatie's
-                    console.log("datalocation: ", receiv.dataLocations);
-
-
-                }
-                console.log("Geen error");
-            }else{
-                console.log(receiv.error);
-                $.snackbar({content: receiv.error});
-            }
-            */
-
         });
+
+        /*
 
         socket.on('games.getLocationName', function(message) {
             console.log(message.data);
@@ -211,6 +176,8 @@ let Game = function () {
 
             window.location = "users.html";
         });
+
+        */
 
 
 
@@ -230,14 +197,9 @@ let Game = function () {
     return {
         init: init,
         addNewGame: addNewGame,
-        findAllGames: findAllGames,
-        setGame: setGame,
-        setLocation: setLocation,
-        changeGameName:changeGameName,
+        getAllGames: getAllGames,
         setName:setName,
-        getLocation:getLocation,
-        getLocationName:getLocationName,
-        startGame:startGame,
-        getAllLocation:getAllLocation
+        getAllPlaces:getAllPlaces,
+        setPlaceId:setPlaceId
     };
 }();
