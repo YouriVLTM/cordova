@@ -197,13 +197,15 @@ let Game = function () {
             _setLocalStorageGame("gameId",message.data.id);
 
             window.location = "users.html";
-
-
-
-
-
         });
 
+
+
+        //error
+        socket.on('games.error', function(message) {
+            console.log(message.data);
+            $.snackbar({content: message.data});
+        });
 
 
 
