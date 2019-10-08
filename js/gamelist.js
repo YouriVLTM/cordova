@@ -29,6 +29,15 @@ $(function(){
         //Game.getGameLocation(Socket.conn());
     });
 
+
+
+
+
+
+
+
+
+
     $('#reloadnewgames').click(function () {
         Game.findAllGames(Socket.conn());
     });
