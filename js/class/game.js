@@ -14,6 +14,19 @@ let Game = function () {
         //console.log("games init", Socket.send('games.findAll',''));
     };
 
+    // New
+
+    let findAllGames = function(socket){
+        socket.emit('games.findAll', '');
+    }
+    let addNewGame = function(socket,gameName){
+        socket.emit('games.createNewGame', {name : gameName});
+
+        // get games
+        findAllGames(socket);
+    };
+
+    
     // New Youri
 
     let setName = function(socket,gameId,name){
