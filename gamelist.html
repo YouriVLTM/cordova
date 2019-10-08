@@ -45,7 +45,7 @@
         <div class="row justify-content-md-center pt-5">
             <div class="col-12 text-center">
                 <h2>Gamelist</h2>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Startnewgame" >New game</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startNewGameModal" >New game</button>
                 <button type="button" class="btn btn-info" data-toggle="modal" id="reloadnewgames" >Reload</button>
 
 
@@ -71,7 +71,7 @@
 
 <!--Modale venster-->
 
-<div class="modal fade" id="StartsetGameName" tabindex="-1" role="dialog" aria-labelledby="StartsetGameNameLabel" aria-hidden="true">
+<div class="modal fade" id="StartsetGameNameModel" tabindex="-1" role="dialog" aria-labelledby="StartsetGameNameLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,7 +83,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Name of game:</label>
-                    <input type="text" class="form-control" id="recipient-name-setGameName">
+                    <input type="text" class="form-control" id="setGameName">
                 </div>
             </div>
             <div class="modal-footer">
@@ -95,7 +95,7 @@
 </div>
 
 
-<div class="modal fade" id="Startnewgame" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="startNewGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,12 +107,12 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Name of game:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <input type="text" class="form-control" id="newGameName">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="newgame" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" id="startNewGame" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>

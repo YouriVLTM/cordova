@@ -67,7 +67,7 @@ let Game = function () {
     let findAllGames = function(socket){
         // Get all games
         //socket.on('connect', function() {
-            socket.emit('games.findAll', '');
+        socket.emit('games.findAll', '');
 
         //});
     }

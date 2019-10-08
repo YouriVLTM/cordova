@@ -2,9 +2,15 @@ $(function(){
     document.addEventListener("deviceready", onDeviceReady, false);
 
 
+    // Button Start new game
+    $("#startNewGameModal").on("click", function(){
+        // input game leegmaken
+        $('#newGameName').val('');
+    });
 
-    $('#newgame').click(function () {
-        var gameName = $('input#recipient-name').val();
+
+    $('#startNewGame').click(function () {
+        var gameName = $('input#newGameName').val();
         // add new game
         Game.addNewGame(Socket.conn(),gameName);
         //leegmaken voor de volgende
@@ -12,12 +18,22 @@ $(function(){
 
     });
 
+    $("#setGameNameButton").on("click", function(){
+        console.log("Change name");
+
+        //socket
+        Game.setName(Socket.conn(),Game.gameId,$('input#setGameName').val());
+
+
+        //If location already exist or not
+        //Game.getGameLocation(Socket.conn());
+    });
 
     $('#reloadnewgames').click(function () {
-        console.log("reloadgame");
-        // reload
         Game.findAllGames(Socket.conn());
     });
+
+
 
     $("ul#gameslist").on("click","li", function(){
         console.log($(this).text(), $(this).attr("data-gameId"));
@@ -50,19 +66,7 @@ $(function(){
         //Game.getGameLocation(Socket.conn());
     });
 
-    $("#setGameNameButton").on("click", function(){
-        console.log("change game name server");
-        console.log(Game.gameId);
 
-        console.log($('#recipient-name-setGameName').val())
-
-        //socket
-        Game.setName(Socket.conn(),Game.gameId,$('#recipient-name-setGameName').val());
-
-
-        //If location already exist or not
-        //Game.getGameLocation(Socket.conn());
-    });
 
     // start Game
 
@@ -80,13 +84,12 @@ $(function(){
 
 // show model
 function changeGameName(elem){
-    console.log("change name");
-    // change game
-    console.log($(elem).text(),$(elem).attr("data-gameId"));
-    $('#recipient-name-setGameName').val($(elem).text());
+    // read old Game names
+    $('input#setGameName').val($(elem).text());
     // get all locations
 
-    $('#StartsetGameName').modal('show');
+    $('#StartsetGameNameModel').modal('show');
+    // save gameId
     Game.gameId = $(elem).attr("data-gameId");
 
 }
