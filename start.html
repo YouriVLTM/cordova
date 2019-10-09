@@ -3,8 +3,9 @@
 <head>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/class/maps.js"></script>
+    <link rel="stylesheet" href="css/snackbar.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
 
     <style type="text/css">
         #map_canvas { /* Must bigger size than 100x100 pixels */
@@ -24,4 +25,29 @@
     <button id="button">Center button</button>
 </div>
 </body>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="https://game.yourivanlaer.be:3000/socket.io/socket.io.js"></script>
+<!--<script type="text/javascript" src="http://192.168.112.161:8080/socket.io/socket.io.js"></script>-->
+
+
+<script src="js/lib/jquery.min.js"></script>
+<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+
+<!-- SnackbarJS plugin -->
+<script src="https://cdn.rawgit.com/FezVrasta/snackbarjs/1.1.0/dist/snackbar.min.js"></script>
+<script src="js/lib/snackbar.min.js"></script>
+<script src="js/lib/bootstrap-material-design.js"></script>
+<script src="https://kit.fontawesome.com/15dbccbe8d.js" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+<script src="js/class/socket.js"></script>
+<script src="js/class/gameSettings.js"></script>
+<script src="js/class/localStorage.js"></script>
+<script src="js/class/game.js"></script>
+<script src="js/class/maps.js"></script>
+<script src="js/start.js"></script>
+
+
 </html>

@@ -94,8 +94,6 @@ function addUserPage(elem){
     console.log($(elem).attr("data-gameId"));
 
     GameSettings.addUserPage(Localstoragegame,$(elem).attr("data-gameId"));
-
-
 }
 
 
@@ -104,6 +102,7 @@ function onDeviceReady() {
     console.log('Device is ready');
     //socket function
     Socket.init();
+    console.log('OKE');
     GameSettings.init(Socket.conn());
     //LocalStorage.init();
 }

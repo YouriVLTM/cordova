@@ -7,20 +7,24 @@ $(function(){
 
         $('#StartsetUsernameModel').modal('show');
 
+        // leegmaken
+        $('#setUserName').val('');
+
 
 
     });
 
     $("#setUsernameButton").on("click", function(){
         console.log("New user name");
-        //leegmaken
-        $('#setUserName').val('');
-
         GameSettings.createNewUser(Socket.conn(),GameSettings.gameId,$('#setUserName').val(),GameSettings.personalitie);
         $('#StartsetUsernameModel').modal('hide');
 
+        // Go to Maps
+        GameSettings.goToMaps(Socket.conn(),GameSettings.gameId);
+
+
         //reload
-        getAllcounters();
+        //getAllcounters();
     });
 
 

@@ -2,6 +2,7 @@ let GameSettings = function () {
     let gameId;
     let elementedite;
     let personalitie;
+    let userId;
 
     let init = function(socket){
         socket.on('connect', function() {
@@ -58,6 +59,10 @@ let GameSettings = function () {
         socket.emit('game.createNewUser', {gameId:gameId,name:name,personalitie : personalitie});
     }
 
+    let goToMaps = function(socket,gameId){
+        // Kijken of alles inorde is
+        socket.emit('game.goToMaps', {gameId:gameId});
+    }
 
 
 
@@ -78,7 +83,7 @@ let GameSettings = function () {
                     '                           <ul class="list-unstyled">\n' +
                     '                               <li class=\'text-left\'>Plaats : <button type="button" onclick="changePlace(this)" data-gameId='+game.id+' class="btn btn-info">'+game.placeName+'</button></li>\n' +
                     '                               <li class=\'text-left\'>Aantal gebruikers : '+game.users.length+'</li>\n' +
-                    '                               <li class=\'text-left\'>GameSettings : '+game.active+'</li>\n' +
+                    '                               <li class=\'text-left\'>Game  : '+game.active+'</li>\n' +
                     '                           </ul>\n' +
                     '                           <button type="button" class="btn btn-success" onclick="addUserPage(this)" data-gameId='+game.id+'>Start</button>\n' +
                     '                       </div>\n' +
@@ -112,6 +117,16 @@ let GameSettings = function () {
             $(".counterPrisoner").text(message.data);
         });
 
+        socket.on('game.getUser', function(message) {
+            console.log("User",message.data);
+            Localstoragegame.setLocalStorageGame("userId",message.data.id);
+        });
+
+        socket.on('game.goToMaps', function(message) {
+            window.location = "start.html";
+        });
+
+
         //error
         socket.on('games.error', function(message) {
             console.log(message.data);
@@ -132,6 +147,7 @@ let GameSettings = function () {
         addUserPage:addUserPage,
         getCountAgent:getCountAgent,
         getCountPrisoner:getCountPrisoner,
-        createNewUser:createNewUser
+        createNewUser:createNewUser,
+        goToMaps:goToMaps
     };
 }();
