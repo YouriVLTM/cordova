@@ -14,6 +14,13 @@ function onDeviceReady() {
     Socket.init();
     Game.init(Socket.conn());
 
+    //maps init
     var div = document.getElementById("map_canvas");
-    Maps.init(Socket.conn(),Game.gameId,div);
+    map = plugin.google.maps.Map.getMap(div);
+
+    Maps.init(Socket.conn(),Game.gameId,map);
+
+    //User
+
+    User.init(Socket.conn(),Maps.map);
 }

@@ -1,23 +1,51 @@
 let Maps = function () {
     let map;
 
-    let init = function(socket,gameId,div){
-        map = plugin.google.maps.Map.getMap(div);
+    let init = function(socket,gameId,mapp){
+        map = mapp;
+
 
         /*
         socket.on('connect', function() {
             console.log("connection");
         });
         */
-        map.one(plugin.google.maps.event.MAP_READY, _onMapInit);
+        //map.one(plugin.google.maps.event.MAP_READY, _onMapInit);
 
         _receiveSocket(socket);
+        // load maps labels
         _onMapInit(socket,gameId);
     };
 
-    function _onMapInit(socket,gameId){
+    let _onMapInit = function(socket,gameId){
         // get maps
         socket.emit('maps.getMaps', {gameId:gameId});
+
+    }
+
+    let updateUserLocation = function(location){
+        console.log("ok");
+        marker = map.addMarker({
+            title: "Youri Location",
+            label: "A",
+            position: location.latLng,
+            icon: {
+                url: 'img/dief.png'
+            }
+        });
+
+        updateCamera(location);
+
+    }
+
+    let updateCamera = function(location){
+        map.animateCamera({
+            target: location.latLng,
+            zoom: 15,
+            tilt: 0,
+            bearing: 0,
+            duration: 0
+        });
 
     }
 
@@ -26,7 +54,7 @@ let Maps = function () {
 
 
         socket.on('maps.getMaps', function(message) {
-            console.log(message.data);
+            //console.log(message.data);
             data =message.data;
 
             // Add markers
@@ -49,7 +77,8 @@ let Maps = function () {
 
 
     return {
-        init: init
+        init: init,
+        updateUserLocation:updateUserLocation
     };
 
 }();

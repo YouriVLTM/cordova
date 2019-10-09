@@ -40,7 +40,7 @@ let GameSettings = function () {
         Localstoragegame.setLocalStorageGame("gameId",gameId);
 
         // go to new windows
-        window.location = "users.html";
+        window.location = "userslist.html";
     }
 
     let setName = function(socket,gameId,name){
