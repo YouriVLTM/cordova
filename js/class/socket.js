@@ -29,16 +29,3 @@ let Socket = function () {
         conn : conn
     };
 }();
-
-
-
-/*
-socket.on('connect', function() {
-    socket.emit('message', { test: 'hello world' });
-
-    socket.on('message', function(text) {
-        alert(text);
-    });
-});
-
-*/

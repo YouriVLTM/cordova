@@ -1,10 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/snackbar.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Escape</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<section class="background-img-geocaching-people">
+    <div class="container">
+        <div class="row justify-content-md-center pt-5">
+            <div class="col-12 text-center">
+                <h2>Kies een personage</h2>
+
+
+                <ul class="list-group" id="personalities">
+
+                    <li class="list-group-item border border-secondary rounded-2" data-personalitie="Prisoner">
+                        <img src="img/dief.png" alt="">
+                        <div class="bmd-list-group-col">
+                            <p class="list-group-item-heading text-left">De dief</p>
+                            <p class="list-group-item-text">Deze speler heeft het spel in handen.</p>
+                        </div>
+                        <span class="label label-default label-pill pull-xs-right counterPrisoner">?</span>
+                    </li>
+
+                    <li class="list-group-item border border-secondary mt-3" data-personalitie="Agent">
+                        <img src="img/polictieicon.png" alt="">
+                        <div class="bmd-list-group-col">
+                            <p class="list-group-item-heading text-left">De politie</p>
+                            <p class="list-group-item-text">De politie moet proberen de dief te pakken.</p>
+                        </div>
+                        <span class="label label-default label-pill pull-xs-right counterAgent">?</span>
+                    </li>
+
+                    <li class="list-group-item border border-secondary mt-3" data-personalitie="Admin">
+                        <i class="fas fa-user-shield fa-3x"></i>
+                        <div class="bmd-list-group-col">
+                            <p class="list-group-item-heading text-left">Admin</p>
+                            <p class="list-group-item-text">Alle rechten</p>
+                        </div>
+                        <span class="label label-default label-pill pull-xs-right counterAdmin">?</span>
+                    </li>
+
+                </ul>
+
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!--Modale venster-->
+
+<div class="modal fade" id="StartsetUsernameModel" tabindex="-1" role="dialog" aria-labelledby="StartsetUsernameModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="StartsetUsernameModelLabel">Add personalitie</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="setUserName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="setUsernameButton" data-dismiss="modal">Add User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="https://game.yourivanlaer.be:3000/socket.io/socket.io.js"></script>
+
+
+
+<script src="js/lib/jquery.min.js"></script>
+<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+
+<!-- SnackbarJS plugin -->
+<script src="https://cdn.rawgit.com/FezVrasta/snackbarjs/1.1.0/dist/snackbar.min.js"></script>
+<script src="js/lib/snackbar.min.js"></script>
+<script src="js/lib/bootstrap-material-design.js"></script>
+<script src="https://kit.fontawesome.com/15dbccbe8d.js" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+<script src="js/class/socket.js"></script>
+<script src="js/users.js"></script>
+<script src="js/class/gameSettings.js"></script>
+<script src="js/class/localStorage.js"></script>
 
 </body>
 </html>

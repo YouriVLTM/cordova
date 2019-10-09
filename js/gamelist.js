@@ -12,7 +12,7 @@ $(function(){
     $('#startNewGame').click(function () {
         var gameName = $('input#newGameName').val();
         // add new game
-        Game.addNewGame(Socket.conn(),gameName);
+        GameSettings.addNewGame(Socket.conn(),gameName);
         //leegmaken voor de volgende
         $('input#recipient-name').val('');
 
@@ -22,67 +22,37 @@ $(function(){
         console.log("Change name");
 
         //socket
-        Game.setName(Socket.conn(),Game.gameId,$('input#setGameName').val());
+        GameSettings.setName(Socket.conn(),GameSettings.gameId,$('input#setGameName').val());
+
+        // reload
+        GameSettings.getAllGames(Socket.conn());
 
 
         //If location already exist or not
-        //Game.getGameLocation(Socket.conn());
+        //GameSettings.getGameLocation(Socket.conn());
     });
 
-
-
-
-
-
-
-
-
-
+    // reload button
     $('#reloadnewgames').click(function () {
-        Game.findAllGames(Socket.conn());
-    });
-
-
-
-    $("ul#gameslist").on("click","li", function(){
-        console.log($(this).text(), $(this).attr("data-gameId"));
-        //alert($(this).text());
-
-        //save game
-        Game.setGame($(this).attr("data-gameId"));
-
-        //If location already exist or not
-        Game.getGameLocation(Socket.conn());
+        GameSettings.getAllGames(Socket.conn());
     });
 
     //locatie keuze
-    $("ul#locationList").on("click","li", function(){
+    $("ul#placeList").on("click","li", function(){
         console.log($(this).text(), $(this).attr("data-locationId"));
-        //alert($(this).text());
-        locationId= $(this).attr("data-locationId")
+        console.log("game",GameSettings.gameId);
+        // save new place
+        GameSettings.setPlaceId(Socket.conn(),GameSettings.gameId,$(this).attr("data-locationId"));
 
-        //save game
-        Game.setLocation(Socket.conn(),Game.gameId,locationId);
+        $('#setPlaceModal').modal('hide');
 
-        //Hidden
-        $('#setLocation').modal('hide');
-
-        //save client
-        Game.getLocationName(Socket.conn(),Game.gameId);
-
-
-        //If location already exist or not
-        //Game.getGameLocation(Socket.conn());
+        // reload
+        GameSettings.getAllGames(Socket.conn());
     });
 
 
 
-    // start Game
-
-
-
-
-
+    // start GameSettings
 
 
 
@@ -93,40 +63,37 @@ $(function(){
 
 // show model
 function changeGameName(elem){
-    // read old Game names
+    // read old GameSettings names
     $('input#setGameName').val($(elem).text());
-    // get all locations
-
     $('#StartsetGameNameModel').modal('show');
     // save gameId
-    Game.gameId = $(elem).attr("data-gameId");
+    GameSettings.gameId = $(elem).attr("data-gameId");
 
 }
 
-function changeLocationName(elem){
-    console.log("change location");
-    // change game
-    console.log($(elem).text(),$(elem).attr("data-gameId"));
+function changePlace(elem){
+    console.log("change place");
     // Get location names
-    Game.getAllLocation(Socket.conn());
+    GameSettings.getAllPlaces(Socket.conn());
 
     // show modal
-    $('#setLocation').modal('show');
+    $('#setPlaceModal').modal('show');
 
 
     // save gameId
-    Game.gameId = $(elem).attr("data-gameId");
-    Game.elementedite = elem;
+    GameSettings.gameId = $(elem).attr("data-gameId");
+    // miss
+    GameSettings.elementedite = elem;
 
 }
 
 
-function startGame(elem){
-    console.log("Start Game location");
+function addUserPage(elem){
+    console.log("Go to users");
     // change game
     console.log($(elem).attr("data-gameId"));
 
-    Game.startGame(Socket.conn(),$(elem).attr("data-gameId"));
+    GameSettings.addUserPage(Localstoragegame,$(elem).attr("data-gameId"));
 
 
 }
@@ -137,5 +104,6 @@ function onDeviceReady() {
     console.log('Device is ready');
     //socket function
     Socket.init();
-    Game.init(Socket.conn());
+    GameSettings.init(Socket.conn());
+    //LocalStorage.init();
 }
