@@ -32,11 +32,18 @@ function onDeviceReady() {
 
     //maps init
     var div = document.getElementById("map_canvas");
-    map = plugin.google.maps.Map.getMap(div);
+    var map = plugin.google.maps.Map.getMap(div, {
+        controls: {
+            compass: true
+        }
+    });
 
     Maps.init(Socket.conn(),Game.gameId,map);
 
     //User
 
     User.init(Socket.conn(),Maps.map);
+}
+function onMapInit(map) {
+    console.log("hello");
 }

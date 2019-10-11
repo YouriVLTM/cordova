@@ -65,7 +65,8 @@ let User = function () {
         LatLng = loca;
 
         Maps.updateUserLocation(loca);
-        // collision detection
+
+        // collision detection marker
         Maps.collisionDetectionMarkers(loca);
 
         // update location to server
@@ -78,29 +79,6 @@ let User = function () {
         alert('code: '    + error.code    + '\n' +
             'message: ' + error.message + '\n');
     }
-
-    let testCollesion = function(position) {
-        console.log("update Locatie lat", position.coords.latitude, position.coords.longitude );
-        console.log("loc", new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude));
-
-        if(plugin.google.maps.geometry.spherical.computeDistanceBetween(new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude) ,new plugin.google.maps.LatLng(51.1462531,5.0027009))<200){
-            console.log('You have arrived!');
-        }else{
-            console.log('NOT arrived!');
-
-        }
-
-        var newLatLng = new plugin.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        marker.setPosition(newLatLng);
-
-
-
-
-    }
-
-
-
-
 
 
     let _receiveSocket = function(socket){

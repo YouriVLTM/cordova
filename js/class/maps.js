@@ -7,22 +7,23 @@ let Maps = function () {
     let init = function(socket,gameId,mapp){
         map = mapp;
 
+        // Setings
+        //map.setCompassEnabled(isEnabled);
+
         // Set possition
         var latlng = new plugin.google.maps.LatLng(-24.397, 140.644);
 
 
 
         use = Localstoragegame.getLocalStorageGame("userId");
-        console.log(use);
+
+        // compas
+        map.setCompassEnabled(true);
+
+
 
         socket.emit('maps.getDeviceMarker', {gameId:gameId,userId:use});
 
-
-        /*
-        socket.on('connect', function() {
-            console.log("connection");
-        });
-        */
         //map.one(plugin.google.maps.event.MAP_READY, _onMapInit);
 
         _receiveSocket(socket);
@@ -40,8 +41,9 @@ let Maps = function () {
         console.log("ok",loca);
         // Set posistion
         realTimeMarker.setPosition(loca);
+        realTimeMarker.setCompassEnabled(true);
 
-        updateCamera(loca);
+        //updateCamera(loca);
     }
 
     let removeDeviceLocation = function(users){
@@ -81,10 +83,15 @@ let Maps = function () {
             label: name._shot,
             position: user.location.latlng,
             icon: {
-                url: 'img/' + user.icon
+                url: 'img/' + user.icon,
+                "size": {
+                    "width": 40,
+                    "height": 40
+                }
             }
         });
         UsersMarker.set(user.id, newMarker);
+
 
     }
 
@@ -126,27 +133,13 @@ let Maps = function () {
                 strokeColor: "rgba(238, 91, 91, 0.75)",
                 strokeWidth: 1
             });
-
-
-        }else{
-            console.log("NOT collision");
         }
-
-        /*if(!new plugin.google.maps.geometry.spherical.computeDistanceBetween(new plugin.google.maps.LatLng(51.1462315,5.0026965) ,new plugin.google.maps.LatLng(51.1462315,5.0026965)<20)){
-            console.log('You have arrived!');
-        }else{
-            console.log('NOT arrived!');
-
-        }*/
     }
 
     let collisionDetectionMarkers = function(Location){
         mapMarkers.forEach(function(marker){
             _collisionDetection(Location,new plugin.google.maps.LatLng(marker.lat,marker.lng));
         });
-
-
-
     }
 
 
@@ -154,20 +147,27 @@ let Maps = function () {
 
         socket.on('maps.getDeviceMarker', function(message) {
             console.log("maps.getDeviceMarker", message.data);
+
             data = message.data;
             realTimeMarker = map.addMarker({
                 title: data.name,
                 label: data._shot,
                 position: data.location.latlng,
                 icon: {
-                    url: 'img/'+data.icon
+                    url: 'img/'+data.icon,
+                    "size": {
+                        "width": 40,
+                        "height": 40
+                    }
                 }
             });
+
         });
 
 
         socket.on('maps.getMaps', function(message) {
-            //console.log(message.data);
+            console.log(message.data);
+
             data =message.data;
             // Add markers
 
@@ -175,6 +175,9 @@ let Maps = function () {
                 mapMarkers.push(options.position);
                 return map.addMarker(options);
             });
+
+
+
         });
 
 
