@@ -6,6 +6,22 @@ $(function(){
     // Create a Google Maps native view under the map_canvas div.
 
     // ready
+    $(".zoomUser").on("click", function(){
+        // input game leegmaken
+        Maps.zoomRealTimeMarker(User.LatLng);
+    });
+
+    // stop
+    $(".stopGame").on("click", function(){
+        // input game leegmaken
+        Localstoragegame.removeLocalStorageGame("gameId");
+        Localstoragegame.removeLocalStorageGame("userId");
+        window.location = "index.html";
+
+    });
+
+
+
 
 
 });

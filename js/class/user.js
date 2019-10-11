@@ -2,6 +2,8 @@
 let User = function () {
     let gameId;
     let userId;
+    let LatLng;
+    let debugCounter = 0;
 
     let init = function(socket,map){
         socket.on('connect', function() {
@@ -21,21 +23,60 @@ let User = function () {
         var option = {
             enableHighAccuracy: true // use GPS as much as possible
         };
-        plugin.google.maps.LocationService.getMyLocation(option,updateLocation);
+        //plugin.google.maps.LocationService.getMyLocation(option,updateLocation);
 
+        //navigator.geolocation.watchPosition(updateLocation, updateLocationError);
+        // active watch
+
+        _setupWatch(2000);
+        _setupWatchAllUsers(3000);
 
     };
 
-    let updateLocation = function(location) {
-        // get Game Id
-        console.log(location,location.latLng);
+    let _setupWatchAllUsers = function(freq){
+        activeWatchAllUsers = setInterval(_getLocationAllUsers, freq);
+    }
 
-        Maps.updateUserLocation(location);
+    let _getLocationAllUsers = function(){
+        Socket.conn().emit('game.getAllUserLocation', {gameId:gameId});
+    }
+
+    let _setupWatch = function(freq){
+        activeWatch = setInterval(_watchLocation, freq);
+    }
+
+    let _watchLocation = function(){
+        navigator.geolocation.getCurrentPosition(
+            updateLocation,
+            updateLocationError,{
+                enableHighAccuracy: true
+            });
+    }
+
+
+    let updateLocation = function(position) {
+        //var location = new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+        // get Game Id
+        console.log(position);
+        debugCounter+=1;
+        $('#location').text(position.coords.latitude+ ' ' + position.coords.longitude+ ' '+ debugCounter);
+
+        var loca = new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+        LatLng = loca;
+
+        Maps.updateUserLocation(loca);
+        // collision detection
+        Maps.collisionDetectionMarkers(loca);
 
         // update location to server
-        Socket.conn().emit('user.setLocation', {gameId:gameId,userId:userId,latlng:location.latLng});
+        Socket.conn().emit('user.setLocation', {gameId:gameId,userId:userId,latlng:loca});
 
 
+    }
+
+    function updateLocationError(error) {
+        alert('code: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
     }
 
     let testCollesion = function(position) {
@@ -58,15 +99,19 @@ let User = function () {
     }
 
 
-    function updateLocationError(error) {
-        alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
-    }
+
 
 
 
     let _receiveSocket = function(socket){
         //error
+
+        socket.on('game.getAllUserLocation', function(message) {
+            console.log(message.data);
+            Maps.updateUsersLocation(message.data);
+        });
+
+
         socket.on('user.error', function(message) {
             console.log(message.data);
             $.snackbar({content: message.data});

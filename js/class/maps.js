@@ -1,8 +1,21 @@
 let Maps = function () {
     let map;
+    let realTimeMarker;
+    let mapMarkers = [];
+    let UsersMarker = new Map();
 
     let init = function(socket,gameId,mapp){
         map = mapp;
+
+        // Set possition
+        var latlng = new plugin.google.maps.LatLng(-24.397, 140.644);
+
+
+
+        use = Localstoragegame.getLocalStorageGame("userId");
+        console.log(use);
+
+        socket.emit('maps.getDeviceMarker', {gameId:gameId,userId:use});
 
 
         /*
@@ -23,25 +36,71 @@ let Maps = function () {
 
     }
 
-    let updateUserLocation = function(location){
-        console.log("ok");
-        marker = map.addMarker({
-            title: "Youri Location",
-            label: "A",
-            position: location.latLng,
-            icon: {
-                url: 'img/dief.png'
+    let updateUserLocation = function(loca){
+        console.log("ok",loca);
+        // Set posistion
+        realTimeMarker.setPosition(loca);
+
+        updateCamera(loca);
+    }
+
+    let removeDeviceLocation = function(users){
+        userId = Localstoragegame.getLocalStorageGame("userId");
+        users.forEach((user, index) => {
+
+            if(user.id == userId){
+                console.log("good",user);
+
+                delete users[index];
             }
         });
+        return users;
+    }
 
-        updateCamera(location);
+    let updateUsersLocation = function(use){
+        users = removeDeviceLocation(use);
+        //console.log("update", users);
+        users.forEach(function(user){
+            ma = UsersMarker.get(user.id);
+            if(ma){
+                ma.setPosition(user.location.latlng);
 
+            }else{
+                addNewUsersMarker(user);
+            }
+
+
+            //console.log(user.id);
+        });
+    }
+
+    let addNewUsersMarker = function(user){
+        console.log("Add new marker");
+        var newMarker = map.addMarker({
+            title: user.name,
+            label: name._shot,
+            position: user.location.latlng,
+            icon: {
+                url: 'img/' + user.icon
+            }
+        });
+        UsersMarker.set(user.id, newMarker);
+
+    }
+
+    let zoomRealTimeMarker = function(location){
+        map.animateCamera({
+            target:{lat: 51.1462244, lng: 5.0027229},
+            zoom:16,
+            tilt: 0,
+            bearing: 0,
+            duration: 0
+        });
     }
 
     let updateCamera = function(location){
         map.animateCamera({
-            target: location.latLng,
-            zoom: 15,
+            target: location,
             tilt: 0,
             bearing: 0,
             duration: 0
@@ -49,18 +108,71 @@ let Maps = function () {
 
     }
 
+    let _collisionDetection = function(firstLocation,secondLocation){
+
+        var dlat = firstLocation.lat - secondLocation.lat;
+        var dlng = firstLocation.lng - secondLocation.lng;
+        var distance = Math.sqrt(dlat * dlat + dlng * dlng);
+
+        if (distance < 0.0002) {
+            // collision detected!
+            console.log("collision");
+
+
+            var circle = map.addCircle({
+                center: secondLocation,
+                radius: 20,
+                fillColor: "rgba(238, 91, 91, 0.5)",
+                strokeColor: "rgba(238, 91, 91, 0.75)",
+                strokeWidth: 1
+            });
+
+
+        }else{
+            console.log("NOT collision");
+        }
+
+        /*if(!new plugin.google.maps.geometry.spherical.computeDistanceBetween(new plugin.google.maps.LatLng(51.1462315,5.0026965) ,new plugin.google.maps.LatLng(51.1462315,5.0026965)<20)){
+            console.log('You have arrived!');
+        }else{
+            console.log('NOT arrived!');
+
+        }*/
+    }
+
+    let collisionDetectionMarkers = function(Location){
+        mapMarkers.forEach(function(marker){
+            _collisionDetection(Location,new plugin.google.maps.LatLng(marker.lat,marker.lng));
+        });
+
+
+
+    }
+
 
     let _receiveSocket = function(socket){
+
+        socket.on('maps.getDeviceMarker', function(message) {
+            console.log("maps.getDeviceMarker", message.data);
+            data = message.data;
+            realTimeMarker = map.addMarker({
+                title: data.name,
+                label: data._shot,
+                position: data.location.latlng,
+                icon: {
+                    url: 'img/'+data.icon
+                }
+            });
+        });
 
 
         socket.on('maps.getMaps', function(message) {
             //console.log(message.data);
             data =message.data;
-
             // Add markers
-            var bounds = [];
+
             var markers = data.map(function(options) {
-                bounds.push(options.position);
+                mapMarkers.push(options.position);
                 return map.addMarker(options);
             });
         });
@@ -78,7 +190,10 @@ let Maps = function () {
 
     return {
         init: init,
-        updateUserLocation:updateUserLocation
+        updateUserLocation:updateUserLocation,
+        collisionDetectionMarkers:collisionDetectionMarkers,
+        zoomRealTimeMarker:zoomRealTimeMarker,
+        updateUsersLocation:updateUsersLocation
     };
 
 }();

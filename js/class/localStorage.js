@@ -18,10 +18,21 @@ let Localstoragegame = function () {
         }
     };
 
+    let removeLocalStorageGame = function (variable) {
+        try {
+            return localStorage.removeItem(variable);
+        } catch (err) {
+            console.log("Error : Can't remove storage ");
+            $.snackbar({content: "Error : Can't remove storage "});
+        }
+    };
+
+
 
     return {
         setLocalStorageGame: setLocalStorageGame,
-        getLocalStorageGame: getLocalStorageGame
+        getLocalStorageGame: getLocalStorageGame,
+        removeLocalStorageGame:removeLocalStorageGame
     };
 
 }();
