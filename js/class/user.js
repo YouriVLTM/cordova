@@ -118,9 +118,10 @@ let User = function () {
         // kijken of misshot
         if(detectUsers.length > 0){
             console.log("hit");
+            socket.emit('user.hitShot', {gameId:gameId,userId:userId,detectUsers});
         }else {
             console.log("lose");
-            Socket.conn().emit('user.loseShot', {gameId:gameId,userId:userId});
+            socket.emit('user.loseShot', {gameId:gameId,userId:userId});
         }
     }
 
