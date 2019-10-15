@@ -25,6 +25,54 @@
 <div id="map_canvas">
 </div>
 <p id="location">?</p>
+<button type="button" class="btn btn-success shootButton">Shoot</button>
+
+
+<!-- modals -->
+<div class="modal" id="addAttributeModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">qsdfqdf</p>
+                <img src="" class="modal-img" alt="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="canceledAttribute" data-id="">Annuleren</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="addAttribute" data-id="">Neem object</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--message-->
+<div class="modal" id="addMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text" id="messageText">NO message set!</p>
+                <img src="" alt="" id="messageImg"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 
 <script type="text/javascript" src="cordova.js"></script>

@@ -2,6 +2,7 @@
 let User = function () {
     let gameId;
     let userId;
+    let user;
     let LatLng;
     let debugCounter = 0;
 
@@ -15,6 +16,9 @@ let User = function () {
         // get value
         gameId = Localstoragegame.getLocalStorageGame("gameId");
         userId = Localstoragegame.getLocalStorageGame("userId");
+        user = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
+
+        console.log("user",user);
 
         // update
         //var watchID = navigator.geolocation.watchPosition(updateLocation, updateLocationError, { frequency: 3000 });
@@ -29,6 +33,7 @@ let User = function () {
         // active watch
 
         _setupWatch(2000);
+        _setupMessage(2000);
         _setupWatchAllUsers(3000);
 
     };
@@ -45,6 +50,10 @@ let User = function () {
         activeWatch = setInterval(_watchLocation, freq);
     }
 
+    let _setupMessage = function(freq){
+        activeWatch = setInterval(updateGetMessage, freq);
+    }
+
     let _watchLocation = function(){
         navigator.geolocation.getCurrentPosition(
             updateLocation,
@@ -53,25 +62,48 @@ let User = function () {
             });
     }
 
+    let updateGetMessage = function(){
+        // kijken of er een bericht binnen is
+        Game.getMessage(Socket.conn(),{gameId:gameId,userId:userId});
+    }
+
 
     let updateLocation = function(position) {
         //var location = new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         // get Game Id
-        console.log(position);
+
+        // debug settings
+        //console.log(position);
         debugCounter+=1;
         $('#location').text(position.coords.latitude+ ' ' + position.coords.longitude+ ' '+ debugCounter);
 
-        var loca = new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-        LatLng = loca;
 
+        // get google plugin location
+        var loca = new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+
+
+        //update users
         Maps.updateUserLocation(loca);
 
-        // collision detection marker
+        // collision detection
+        //marker
         Maps.collisionDetectionMarkers(loca);
+        // user
+
+
+        //local update
+        //console.log(loca);
+        user.location = {lat:loca.lat,lng:loca.lng};
+        // save local
+        Localstoragegame.setLocalStorageGame("user",JSON.stringify(user));
+
 
         // update location to server
-        Socket.conn().emit('user.setLocation', {gameId:gameId,userId:userId,latlng:loca});
+        Socket.conn().emit('user.setLocation', {gameId:gameId,userId:userId,location:loca});
 
+
+        // view message
+        //Game.popupMessage();
 
     }
 
@@ -80,13 +112,24 @@ let User = function () {
             'message: ' + error.message + '\n');
     }
 
+    let shoot = function(socket){
+        us = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
+        var detectUsers = Maps.collisionDetectionUsers(us);
+        // kijken of misshot
+        if(detectUsers.length > 0){
+            console.log("hit");
+        }else {
+            console.log("lose");
+            Socket.conn().emit('user.loseShot', {gameId:gameId,userId:userId});
+        }
+    }
+
 
     let _receiveSocket = function(socket){
-        //error
 
         socket.on('game.getAllUserLocation', function(message) {
-            console.log(message.data);
             Maps.updateUsersLocation(message.data);
+            Localstoragegame.setLocalStorageGame("users",JSON.stringify(message.data));
         });
 
 
@@ -104,7 +147,9 @@ let User = function () {
 
 
     return {
-        init: init
+        init: init,
+        updateGetMessage:updateGetMessage,
+        shoot:shoot
     };
 
 }();

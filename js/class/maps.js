@@ -3,6 +3,7 @@ let Maps = function () {
     let realTimeMarker;
     let mapMarkers = [];
     let UsersMarker = new Map();
+    let message = null;
 
     let init = function(socket,gameId,mapp){
         map = mapp;
@@ -31,28 +32,28 @@ let Maps = function () {
         _onMapInit(socket,gameId);
     };
 
+    let getMessage = function(){
+        return message;
+    }
+
     let _onMapInit = function(socket,gameId){
         // get maps
         socket.emit('maps.getMaps', {gameId:gameId});
-
     }
 
     let updateUserLocation = function(loca){
-        console.log("ok",loca);
         // Set posistion
         realTimeMarker.setPosition(loca);
-        realTimeMarker.setCompassEnabled(true);
 
         //updateCamera(loca);
     }
 
+
+
     let removeDeviceLocation = function(users){
         userId = Localstoragegame.getLocalStorageGame("userId");
         users.forEach((user, index) => {
-
             if(user.id == userId){
-                console.log("good",user);
-
                 delete users[index];
             }
         });
@@ -61,11 +62,10 @@ let Maps = function () {
 
     let updateUsersLocation = function(use){
         users = removeDeviceLocation(use);
-        //console.log("update", users);
         users.forEach(function(user){
             ma = UsersMarker.get(user.id);
             if(ma){
-                ma.setPosition(user.location.latlng);
+                ma.setPosition(user.location);
 
             }else{
                 addNewUsersMarker(user);
@@ -77,20 +77,23 @@ let Maps = function () {
     }
 
     let addNewUsersMarker = function(user){
-        console.log("Add new marker");
-        var newMarker = map.addMarker({
-            title: user.name,
-            label: name._shot,
-            position: user.location.latlng,
-            icon: {
-                url: 'img/' + user.icon,
-                "size": {
-                    "width": 40,
-                    "height": 40
+        if(user.location != null){
+
+            console.log("Add new marker");
+            var newMarker = map.addMarker({
+                title: user.name,
+                label: name._shot,
+                position: user.location,
+                icon: {
+                    url: 'img/' + user.icon,
+                    "size": {
+                        "width": 40,
+                        "height": 40
+                    }
                 }
-            }
-        });
-        UsersMarker.set(user.id, newMarker);
+            });
+            UsersMarker.set(user.id, newMarker);
+        }
 
 
     }
@@ -116,30 +119,115 @@ let Maps = function () {
     }
 
     let _collisionDetection = function(firstLocation,secondLocation){
+        if(firstLocation != null && secondLocation!= null){
 
-        var dlat = firstLocation.lat - secondLocation.lat;
-        var dlng = firstLocation.lng - secondLocation.lng;
-        var distance = Math.sqrt(dlat * dlat + dlng * dlng);
+            var dlat = firstLocation.lat - secondLocation.lat;
+            var dlng = firstLocation.lng - secondLocation.lng;
+            var distance = Math.sqrt(dlat * dlat + dlng * dlng);
 
-        if (distance < 0.0002) {
-            // collision detected!
-            console.log("collision");
-
-
-            var circle = map.addCircle({
-                center: secondLocation,
-                radius: 20,
-                fillColor: "rgba(238, 91, 91, 0.5)",
-                strokeColor: "rgba(238, 91, 91, 0.75)",
-                strokeWidth: 1
-            });
+            if (distance < 0.0002) {
+                return true;
+            }
         }
+        return false;
     }
 
-    let collisionDetectionMarkers = function(Location){
+    let _multiCollisionDetectionMarkers = function(Location){
+        var collisions = [];
         mapMarkers.forEach(function(marker){
-            _collisionDetection(Location,new plugin.google.maps.LatLng(marker.lat,marker.lng));
+            if(_collisionDetection(Location,marker.position)){
+                if(!marker.taked) {
+                    collisions.push(marker);
+                }
+            }
         });
+        return collisions;
+    }
+
+    let _multiCollisionDetectionUsers = function(Location){
+        var collisions = [];
+
+        // get users
+        users = JSON.parse(Localstoragegame.getLocalStorageGame("users"));
+        users.forEach(function(user){
+            if(user != null){
+                if(_collisionDetection(Location,user.location)){
+                    collisions.push(user);
+                }
+            }
+
+        });
+        return collisions;
+    }
+
+    let _getMarker = function(markerId){
+        var ma;
+        mapMarkers.forEach(function(marker){
+            if(marker.id == markerId){
+                console.log(marker,marker.id);
+                ma = marker;
+            }
+        });
+        return ma;
+    }
+
+    let _makeCircle = function(latlng){
+        var circle = map.addCircle({
+            center: latlng,
+            radius: 20,
+            fillColor: "#28a745",
+            strokeColor: "#28a745",
+            strokeWidth: 1
+        });
+    }
+
+
+
+    let getMarkerAttribuut = function(markerId){
+        marker = _getMarker(markerId);
+        console.log(marker);
+        _makeCircle(marker.position);
+
+    }
+
+    let collisionDetectionUsers = function(user){
+        return _multiCollisionDetectionUsers(user.location);
+
+    }
+
+
+    let collisionDetectionMarkers = function(Location){
+        var markers = _multiCollisionDetectionMarkers(Location);
+
+        //taken
+        markers.forEach(function(marker){
+            console.log("ye");
+            $('.modal-title').text("attribuut");
+            $('.modal-text').text("U heeft een attribuut gevangen: \n" + marker.title);
+            $('.modal-img').attr("src",marker.icon.url);
+            $('.modal-img').width(marker.icon.size.width);
+            $('.modal-img').height(marker.icon.size.height);
+
+
+            $('#addAttribute').attr("data-id",marker.id);
+            $('#canceledAttribute').attr("data-id",marker.id);
+            $('#addAttributeModal').modal("show");
+            marker.taked = true;
+
+            user = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
+
+            // set Messages
+            message = {
+                "message":{
+                    "title" : marker.title,
+                    "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' ></img>",
+                    "readUsers" : ["Agent","Prisoner"]
+
+                }
+            };
+
+        });
+
     }
 
 
@@ -152,7 +240,7 @@ let Maps = function () {
             realTimeMarker = map.addMarker({
                 title: data.name,
                 label: data._shot,
-                position: data.location.latlng,
+                position: data.location,
                 icon: {
                     url: 'img/'+data.icon,
                     "size": {
@@ -172,7 +260,7 @@ let Maps = function () {
             // Add markers
 
             var markers = data.map(function(options) {
-                mapMarkers.push(options.position);
+                mapMarkers.push(options);
                 return map.addMarker(options);
             });
 
@@ -195,8 +283,11 @@ let Maps = function () {
         init: init,
         updateUserLocation:updateUserLocation,
         collisionDetectionMarkers:collisionDetectionMarkers,
+        collisionDetectionUsers:collisionDetectionUsers,
         zoomRealTimeMarker:zoomRealTimeMarker,
-        updateUsersLocation:updateUsersLocation
+        updateUsersLocation:updateUsersLocation,
+        getMessage:getMessage,
+        getMarkerAttribuut:getMarkerAttribuut
     };
 
 }();

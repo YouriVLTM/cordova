@@ -16,9 +16,45 @@ $(function(){
         // input game leegmaken
         Localstoragegame.removeLocalStorageGame("gameId");
         Localstoragegame.removeLocalStorageGame("userId");
+        Localstoragegame.removeLocalStorageGame("user");
         window.location = "index.html";
 
     });
+
+    //klin
+    $("#addAttribute").on("click", function(){
+        // input game leegmaken
+        //$('#addAttributeModal').modal("hide");
+        var attributeId = $('#addAttribute').attr("data-id");
+        console.log(Game.gameId);
+        console.log(Game.userId);
+        // save to server
+        console.log("Message", Maps.getMessage().message);
+        Socket.conn().emit('user.addAttribute', {gameId:Game.gameId,userId:Game.userId,attributeId:attributeId,message:Maps.getMessage().message});
+        // change Markers
+        Maps.getMarkerAttribuut(attributeId);
+
+   });
+
+    $("#canceledAttribute").on("click", function(){
+        // input game leegmaken
+        //$('#addAttributeModal').modal("hide");
+        var attributeId = $('#canceledAttribute').attr("data-id");
+        console.log(Game.gameId);
+        console.log(Game.userId);
+        // save to server
+        Socket.conn().emit('user.canceledAttribute', {gameId:Game.gameId,userId:Game.userId,attributeId:attributeId});
+
+    });
+
+
+    //shoot function
+    $(".shootButton").on("click", function(){
+        // kijken of er iemand in de buurt is
+        User.shoot(Socket.conn());
+
+    });
+
 
 
 
@@ -43,7 +79,5 @@ function onDeviceReady() {
     //User
 
     User.init(Socket.conn(),Maps.map);
-}
-function onMapInit(map) {
-    console.log("hello");
+
 }

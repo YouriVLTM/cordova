@@ -120,6 +120,7 @@ let GameSettings = function () {
         socket.on('game.getUser', function(message) {
             console.log("User",message.data);
             Localstoragegame.setLocalStorageGame("userId",message.data.id);
+            Localstoragegame.setLocalStorageGame("user",JSON.stringify(message.data));
         });
 
         socket.on('game.goToMaps', function(message) {
