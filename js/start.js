@@ -1,4 +1,5 @@
 $(function(){
+
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // canvas maken
@@ -62,6 +63,7 @@ $(function(){
 
 });
 function onDeviceReady() {
+
     console.log('Device is ready');
     Socket.init();
     Game.init(Socket.conn());
