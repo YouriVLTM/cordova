@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- JQuery -->
-    <script type="text/javascript" src="js/lib2/jquery-3.4.1.min.js"></script>
+
     <title>Home</title>
+
 
 </head>
 <body>
 
-<div class="spinner-border text-primary" role="status">
-    <span class="sr-only">Loading...</span>
+<div class="screenLoader">
+
+        <div class="spinner-grow" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+        </div>
+        <div class="spinner-grow" role="status">
+            <span class="sr-only"></span>
+        </div>
 </div>
+
+
+
+
+
 
 <div id="navigation"></div>
 
@@ -19,6 +33,9 @@
 
 <div id="footer"></div>
 
+
+<!-- JQuery -->
+<script type="text/javascript" src="js/lib2/jquery-3.4.1.min.js"></script>
 
 <script type="text/javascript" src="cordova.js"></script>
 <!-- Bootstrap tooltips -->
@@ -31,6 +48,8 @@
 
 <script src="js/class/localStorage.js"></script>
 <script src="js/index.js"></script>
+
+
 
 </body>
 </html>

@@ -1,0 +1,158 @@
+<section class="img-card">
+
+
+    <div class="container background-optical">
+        <div class="row justify-content-md-center pt-5">
+            <div class="col-12 text-center">
+
+                <!-- Card -->
+                <div class="card mb-4 grey darken-3">
+
+
+                    <!--Card content-->
+                    <div class="card-body">
+
+                        <!--Title-->
+                        <h1 class="text-default">Gamelist</h1>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startNewGameModal" >New game</button>
+                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" id="reloadnewgames" >Reload</button>
+
+                    </div>
+
+                </div>
+                <!-- Card -->
+
+
+                <div class="row" id="cardGameList">
+
+
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <!-- Card -->
+                        <div class="card mb-4 grey darken-3">
+
+                            <!--Card image-->
+                            <div class="view overlay">
+                                <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/06/24/11/06/board-2437446_960_720.jpg" alt="Card image cap">
+                                <a href="#!">
+                                    <div class="mask rgba-white-slight"></div>
+                                </a>
+                            </div>
+
+                            <!--Card content-->
+                            <div class="card-body">
+
+                                <!--Title-->
+                                <h4 class="card-title text-light">Spel 1</h4>
+                                <!--Text-->
+
+
+                                <p class="text-light text-left"> <i class="fas fa-map-marker-alt"></i> <span>Geel</span></p>
+                                <p class="text-light text-left"><i class="far fa-user"></i> <span>3</span></p>
+
+                                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                                <button type="button" class="btn btn-dark-green btn-md btn-block">Start</button>
+
+                            </div>
+
+
+                        </div>
+                        <!-- Card -->
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+                <div id="gameslist">
+                </div>
+
+
+                <div class="spinner-border text-secondary" role="status" id="loadingGames">
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!--Modale venster-->
+
+<div class="modal fade" id="StartsetGameNameModel" tabindex="-1" role="dialog" aria-labelledby="StartsetGameNameLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="StartsetGameNameLabel">Change game</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Name of game:</label>
+                    <input type="text" class="form-control" id="setGameName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="setGameNameButton" data-dismiss="modal">Change</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="startNewGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New game</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Name of game:</label>
+                    <input type="text" class="form-control" id="newGameName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="startNewGame" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="setPlaceModal" tabindex="-1" role="dialog" aria-labelledby="setNewPlaceLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setNewPlaceLabel">Set location</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group" id="placeList">
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--END modal venster-->

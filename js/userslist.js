@@ -1,7 +1,11 @@
 $(function(){
+
+    $( "head,#navigation,#content,#footer" ).hide();
+    loader();
+
     document.addEventListener("deviceready", onDeviceReady, false);
 
-    $("ul#personalities").on("click","li", function(){
+    $(".personalities").on("click", function(){
         console.log("persone",$(this).attr("data-personalitie"));
         GameSettings.personalitie = $(this).attr("data-personalitie");
 
@@ -9,8 +13,6 @@ $(function(){
 
         // leegmaken
         $('#setUserName').val('');
-
-
 
     });
 
@@ -31,6 +33,21 @@ $(function(){
 
 
 });
+function loader(){
+    $( "head" ).load( "template/head.html" );
+    $( "#navigation" ).load( "template/navigation.html" );
+    $( "#footer" ).load( "template/footer.html" );
+}
+
+// word geladen
+$(window).on("load",function(){
+    setTimeout( function(){
+        $(".screenLoader").hide();
+        $( "head,#navigation,#content,#modalvesters,#footer" ).show();
+    }  , 1500 );
+
+});
+
 function onDeviceReady() {
     console.log('Device is ready');
     Socket.init();

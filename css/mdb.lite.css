@@ -6037,3 +6037,16 @@ ul.stepper {
       position: relative;
       color: #ffac47;
       transform: rotate(180deg); }
+
+body {
+  background-color: #343a40 !important; }
+
+.spinner-grow {
+  width: 4rem !important;
+  height: 4rem !important; }
+
+.screenLoader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }

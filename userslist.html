@@ -1,84 +1,126 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/snackbar.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <title>Userlist</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Escape</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="screenLoader">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
     </div>
-</nav>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+</div>
 
-<section class="background-img-geocaching-people">
-    <div class="container">
+<div id="navigation"></div>
+
+<section class="img-card" id="content">
+    <div class="container background-optical">
         <div class="row justify-content-md-center pt-5">
             <div class="col-12 text-center">
-                <h2>Kies een personage</h2>
 
 
-                <ul class="list-group" id="personalities">
 
-                    <li class="list-group-item border border-secondary rounded-2" data-personalitie="Prisoner">
 
-                        <img src="img/prisoner.png" alt="prisoner" class="img-fluid"  width="60px">
-                        <div class="bmd-list-group-col">
-                            <p class="list-group-item-heading text-left">De dief</p>
-                            <p class="list-group-item-text">Deze speler heeft het spel in handen.</p>
+
+                    <div class="card mb-4 grey darken-3">
+
+
+                        <!--Card content-->
+                        <div class="card-body">
+
+                            <!--Title-->
+                            <h1 class="text-default">Kies een personage</h1>
+
                         </div>
-                        <span class="label label-default label-pill pull-xs-right counterPrisoner">?</span>
-                    </li>
 
-                    <li class="list-group-item border border-secondary mt-3" data-personalitie="Agent">
-                        <img src="img/agent.png" alt="agent" width="60px">
-                        <div class="bmd-list-group-col">
-                            <p class="list-group-item-heading text-left">De politie</p>
-                            <p class="list-group-item-text">De politie moet proberen de dief te pakken.</p>
+                    </div>
+
+
+
+                <div class="row mb-4">
+
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 personalities" data-personalitie="Prisoner">
+                        <!--Card-->
+                        <div class="card  grey darken-3">
+                            <!--Background color-->
+                            <div class="text-right m-3">
+                                <p class="text-light"><i class="far fa-user"></i> <span class="counterPrisoner">?</span></p>
+                            </div>
+                            <!--Avatar-->
+                            <div class="avatar mx-auto">
+                                <img src="img/prisoner.png" class="img-fluid" width="100px">
+                            </div>
+                            <div class="card-body">
+                                <!--Name-->
+                                <h4 class="font-weight-bold mb-4 text-default">De dief</h4>
+                                <hr class="text-ligth">
+                                <!--Quotation-->
+                                <p class="dark-grey-text mt-4 text-light"><i class="fas fa-quote-left pr-2"></i>Deze speler heeft het spel in handen.</p>
+                            </div>
                         </div>
-                        <span class="label label-default label-pill pull-xs-right counterAgent">?</span>
-                    </li>
+                        <!--Card-->
+                    </div>
+                    <!--Grid column-->
 
-                    <li class="list-group-item border border-secondary mt-3" data-personalitie="Admin">
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-6 mb-md-0 mb-4 personalities" data-personalitie="Agent">
+                        <!--Card-->
+                        <div class="card grey darken-3">
+                            <!--Background color-->
+                            <div class="text-right m-3">
+                                <p class="text-light"><i class="far fa-user"></i> <span class="counterAgent">?</span></p>
+                            </div>
+                            <!--Avatar-->
+                            <div class="avatar mx-auto">
+                                <img src="img/agent.png" class="img-fluid" width="100px">
+                            </div>
+                            <div class="card-body">
+                                <!--Name-->
+                                <h4 class="font-weight-bold mb-4 text-default">De agent</h4>
+                                <hr>
+                                <!--Quotation-->
+                                <p class="dark-grey-text mt-4 text-light"><i class="fas fa-quote-left pr-2"></i>De agent heeft als opdracht de dieven proberen te arresteren.</p>
 
-                            <img src="img/admin.svg" alt="" class="img-fluid" width="60px">
-                        <div class="bmd-list-group-col">
-                            <p class="list-group-item-heading text-left">Admin</p>
-                            <p class="list-group-item-text">Alle rechten</p>
+                            </div>
                         </div>
-                        <span class="label label-default label-pill pull-xs-right counterAdmin">?</span>
-                    </li>
+                        <!--Card-->
+                    </div>
+                    <!--Grid column-->
 
-                </ul>
+                    <!--Grid column-->
+                    <div class="col-lg-4 col-md-6 personalities" data-personalitie="Admin">
+                        <!--Card-->
+                        <div class="card grey darken-3">
+                            <!--Background color-->
+                            <div class="text-right m-3">
+                                <p class="text-light"><i class="far fa-user"></i> <span class="counterAdmin">?</span></p>
+                            </div>
+                            <!--Avatar-->
+                            <div class="avatar mx-auto">
+                                <img src="img/admin.png" class="img-fluid " width="100px">
+                            </div>
+                            <div class="card-body">
+                                <!--Name-->
+                                <h4 class="font-weight-bold mb-4 text-default">De admin</h4>
+                                <hr>
+                                <!--Quotation-->
+                                <p class="dark-grey-text mt-4 text-light"><i class="fas fa-quote-left pr-2"></i>Alle rechten. Opserveerd het hele spel.</p>
+                            </div>
+                        </div>
+                        <!--Card-->
+                    </div>
+                    <!--Grid column-->
+
+                </div>
+
+
 
 
 
@@ -92,46 +134,51 @@
 </section>
 
 <!--Modale venster-->
+<div id="modalvesters">
+
 
 <div class="modal fade" id="StartsetUsernameModel" tabindex="-1" role="dialog" aria-labelledby="StartsetUsernameModelLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="StartsetUsernameModelLabel">Add personalitie</h5>
+                <h5 class="modal-title text-light" id="StartsetUsernameModelLabel">Add personalitie</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="setUserName">
+                    <label for="recipient-name" class="col-form-label text-light">Name:</label>
+                    <input type="text" class="form-control bg-dark text-light" id="setUserName">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="setUsernameButton" data-dismiss="modal">Add User</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" id="setUsernameButton" data-dismiss="modal">Add User</button>
             </div>
         </div>
     </div>
 </div>
+</div>
+
+<div id="footer"></div>
 
 
-<script type="text/javascript" src="cordova.js"></script>
+<!-- JQuery -->
+<script type="text/javascript" src="js/lib2/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="https://game.yourivanlaer.be:3000/socket.io/socket.io.js"></script>
 
+<script type="text/javascript" src="cordova.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/lib2/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/lib2/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/lib2/mdb.min.js"></script>
 
 
-<script src="js/lib/jquery.min.js"></script>
-<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-
-<!-- SnackbarJS plugin -->
-<script src="https://cdn.rawgit.com/FezVrasta/snackbarjs/1.1.0/dist/snackbar.min.js"></script>
-<script src="js/lib/snackbar.min.js"></script>
-<script src="js/lib/bootstrap-material-design.js"></script>
 <script src="https://kit.fontawesome.com/15dbccbe8d.js" crossorigin="anonymous"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
 <script src="js/class/socket.js"></script>
 <script src="js/userslist.js"></script>

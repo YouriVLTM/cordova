@@ -1,61 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/snackbar.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <title>Gameslist</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Escape</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
+<div class="screenLoader">
+
+    <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
     </div>
-</nav>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+</div>
 
-<section class="background-img-geocaching-people">
-    <div class="container">
+<div id="navigation"></div>
+
+<section class="img-card" id="content" style="display:none;">
+
+
+    <div class="container background-optical">
         <div class="row justify-content-md-center pt-5">
             <div class="col-12 text-center">
-                <h2>Gamelist</h2>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startNewGameModal" >New game</button>
-                <button type="button" class="btn btn-info" data-toggle="modal" id="reloadnewgames" >Reload</button>
+
+                <!-- Card -->
+                <div class="card mb-4 grey darken-3">
 
 
-               <div id="gameslist">
-               </div>
+                    <!--Card content-->
+                    <div class="card-body">
 
+                        <!--Title-->
+                        <h1 class="text-default">Gamelist</h1>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startNewGameModal" >New game</button>
+                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" id="reloadnewgames" >Reload</button>
 
-                <div class="spinner-border text-secondary" role="status" id="loadingGames">
-                    <span class="sr-only">Loading...</span>
+                    </div>
+
                 </div>
+                <!-- Card -->
+
+
+                <div class="row" id="cardGameList">
+
+
+                    <div class="loadingGames">
+
+                        <div class="spinner-grow" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                        <div class="spinner-grow" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+
 
 
 
@@ -66,26 +74,30 @@
     </div>
 </section>
 
+
+<div id="modalvesters" style="display:none;">
+
+
 <!--Modale venster-->
 
 <div class="modal fade" id="StartsetGameNameModel" tabindex="-1" role="dialog" aria-labelledby="StartsetGameNameLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="StartsetGameNameLabel">Change game</h5>
+                <h5 class="modal-title text-light" id="StartsetGameNameLabel">Change game</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Name of game:</label>
-                    <input type="text" class="form-control" id="setGameName">
+                    <label for="recipient-name" class="col-form-label text-light">Name of game:</label>
+                    <input type="text" class="form-control bg-dark text-light" id="setGameName">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="setGameNameButton" data-dismiss="modal">Change</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" id="setGameNameButton" data-dismiss="modal">Change</button>
             </div>
         </div>
     </div>
@@ -94,22 +106,22 @@
 
 <div class="modal fade" id="startNewGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New game</h5>
+                <h5 class="modal-title text-light" id="exampleModalLabel">New game</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Name of game:</label>
-                    <input type="text" class="form-control" id="newGameName">
+                    <label for="recipient-name" class="col-form-label text-light">Name of game:</label>
+                    <input type="text" class="form-control bg-dark text-light" id="newGameName">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="startNewGame" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" id="startNewGame" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>
@@ -118,15 +130,15 @@
 
 <div class="modal fade" id="setPlaceModal" tabindex="-1" role="dialog" aria-labelledby="setNewPlaceLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="setNewPlaceLabel">Set location</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title text-light" id="setNewPlaceLabel">Set location</h5>
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <ul class="list-group" id="placeList">
+                <ul class="list-group bg-dark" id="placeList">
                 </ul>
             </div>
 
@@ -134,21 +146,28 @@
     </div>
 </div>
 <!--END modal venster-->
+</div>
+
+<div id="footer"></div>
+
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="js/lib2/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://game.yourivanlaer.be:3000/socket.io/socket.io.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/lib2/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="cordova.js"></script>
-<script type="text/javascript" src="https://game.yourivanlaer.be:3000/socket.io/socket.io.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/lib2/popper.min.js"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/lib2/mdb.min.js"></script>
 
 
-<script src="js/lib/jquery.min.js"></script>
-<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-
-<!-- SnackbarJS plugin -->
-<script src="https://cdn.rawgit.com/FezVrasta/snackbarjs/1.1.0/dist/snackbar.min.js"></script>
-<script src="js/lib/snackbar.min.js"></script>
-<script src="js/lib/bootstrap-material-design.js"></script>
 <script src="https://kit.fontawesome.com/15dbccbe8d.js" crossorigin="anonymous"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
 <script src="js/class/socket.js"></script>
 <script src="js/gamelist.js"></script>

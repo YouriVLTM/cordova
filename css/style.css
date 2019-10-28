@@ -7087,8 +7087,12 @@ a.text-dark:hover, a.text-dark:focus {
   background-position: center;
   background-attachment: fixed; }
 
-.index-image {
-  background-image: url(https://cdn.pixabay.com/photo/2015/03/28/22/53/emergency-exit-696656_960_720.jpg);
-  background-size: auto;
+.img-card {
+  background-image: url(https://cdn.pixabay.com/photo/2017/11/13/22/12/compass-2946959_960_720.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
-  background-repeat: no-repeat; }
+  background-attachment: fixed; }
+
+.background-optical {
+  background: radial-gradient(circle, #2c2c2c 0%, rgba(44, 44, 44, 0.452819) 100%); }

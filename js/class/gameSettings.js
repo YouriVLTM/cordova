@@ -75,20 +75,43 @@ let GameSettings = function () {
             $('#loadingGames').hide();
 
             //maak lijst leeg
-            $("#gameslist").empty();
+            $("#cardGameList").empty();
             $.each(message.data, function(i, game) {
-                $(  ' <div class="card mb-3">\n' +
-                    '                       <div class="card-body">\n' +
-                    '                           <h5 class="card-title"><button type="button" class="btn btn-primary" onclick="changeGameName(this)" data-gameId='+game.id+'>'+game.name+'</button></h5>\n' +
-                    '                           <ul class="list-unstyled">\n' +
-                    '                               <li class=\'text-left\'>Plaats : <button type="button" onclick="changePlace(this)" data-gameId='+game.id+' class="btn btn-info">'+game.placeName+'</button></li>\n' +
-                    '                               <li class=\'text-left\'>Aantal gebruikers : '+game.users.length+'</li>\n' +
-                    '                               <li class=\'text-left\'>Game  : '+game.active+'</li>\n' +
-                    '                           </ul>\n' +
-                    '                           <button type="button" class="btn btn-success" onclick="addUserPage(this)" data-gameId='+game.id+'>Start</button>\n' +
-                    '                       </div>\n' +
-                    '                   </div>'
-                ).addClass('newClass').appendTo('#gameslist');
+
+
+                $('                    <div class="col-sm-12 col-md-6 col-lg-4">\n' +
+                    '                        <!-- Card -->\n' +
+                    '                        <div class="card mb-4 grey darken-3">\n' +
+                    '\n' +
+                    '                            <!--Card image-->\n' +
+                    '                            <div class="view overlay">\n' +
+                    '                                <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/06/24/11/06/board-2437446_960_720.jpg" alt="Card image cap">\n' +
+                    '                                <a href="#!">\n' +
+                    '                                    <div class="mask rgba-white-slight"></div>\n' +
+                    '                                </a>\n' +
+                    '                            </div>\n' +
+                    '\n' +
+                    '                            <!--Card content-->\n' +
+                    '                            <div class="card-body">\n' +
+                    '\n' +
+                    '                                <!--Title-->\n' +
+                    '                                <h4 class="card-title text-light" onclick="changeGameName(this)" data-gameId='+game.id+'>'+game.name+'</h4>\n' +
+                    '                                <!--Text-->\n' +
+                    '\n' +
+                    '\n' +
+                    '                                <p class="text-light text-left" onclick="changePlace(this)" data-gameId='+game.id+'> <i class="fas fa-map-marker-alt"></i> <span>'+game.placeName+'</span></p>\n' +
+                    '                                <p class="text-light text-left"><i class="far fa-user"></i> <span>'+game.users.length+'</span></p>\n' +
+                    '\n' +
+                    '                                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->\n' +
+                    '                                <button type="button" class="btn btn-dark-green btn-md btn-block" onclick="addUserPage(this)" data-gameId='+game.id+'>Start</button>\n' +
+                    '\n' +
+                    '                            </div>\n' +
+                    '\n' +
+                    '\n' +
+                    '                        </div>\n' +
+                    '                        <!-- Card -->\n' +
+                    '\n' +
+                    '                    </div>').addClass('newClass').appendTo('#cardGameList');
             });
 
         });
@@ -101,7 +124,7 @@ let GameSettings = function () {
             $("#placeList").empty();
 
             $.each(receiv, function(i, place) {
-                $("#placeList").append( "<li class='list-group-item' data-locationId='"+ place.id +"'>" + place.name + "</li>" );
+                $("#placeList").append( "<li class='list-group-item bg-dark text-light' data-locationId='"+ place.id +"'>" + place.name + "</li>" );
             });
 
         });
