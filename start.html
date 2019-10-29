@@ -1,31 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/snackbar.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <title>start</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-
-    <style type="text/css">
-        #map_canvas { /* Must bigger size than 100x100 pixels */
+    <style>
+        #map_canvas {
             width: 100%;
             height: 500px;
-        }
-        button {
-            padding: .5em;
-            margin: .5em;
         }
     </style>
 </head>
 <body>
-<h1>Escape</h1>
-<button type="button" class="btn btn-secondary zoomUser">Zoom In</button>
-<button type="button" class="btn btn-danger stopGame">Stop game</button>
-<div id="map_canvas">
+<div class="screenLoader">
+
+    <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
 </div>
-<p id="location">?</p>
-<button type="button" class="btn btn-success shootButton">Shoot</button>
+
+<div id="navigation"></div>
+
+
+<section>
+
+
+
+
+    <button type="button" class="btn btn-default zoomUser">Zoom In</button>
+    <button type="button" class="btn btn-success shootButton">Shoot</button>
+    <button type="button" class="btn btn-danger stopGame">Stop game</button>
+
+    <div id="map_canvas"></div>
+
+<div class="container mt-3">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                <img src="img/raided/one.png" class='iconAttribute' alt="">
+                <br>
+                <img src='img/attribute/cut.png' class='iconAttribute'/> + <img src='img/attribute/gun.png' class='iconAttribute' />  <span class="text-light">= 100 euro</span>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                <img src="img/raided/two.png" class='iconAttribute' alt="">
+                <br>
+
+                <img src='img/attribute/cut.png' class='iconAttribute'/> + <img src='img/attribute/gun.png' class='iconAttribute' />  <span class="text-light">= 100 euro</span>
+
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                <img src="img/raided/three.png" class='iconAttribute' alt="">
+                <br>
+
+                <img src='img/attribute/cut.png' class='iconAttribute'/> + <img src='img/attribute/gun.png' class='iconAttribute' />  <span class="text-light">= 100 euro</span>
+
+
+            </div>
+            <div class="col-6">
+
+            </div>
+        </div>
+
+    <p id="location">?</p>
+
+    <p> <span id="price">?</span> euro</p>
+</div>
+</section>
 
 
 <!-- modals -->
@@ -73,7 +119,9 @@
     </div>
 </div>
 
-</body>
+<div id="footer"></div>
+
+
 
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="https://game.yourivanlaer.be:3000/socket.io/socket.io.js"></script>
@@ -102,5 +150,5 @@
 <script src="js/class/user.js"></script>
 <script src="js/start.js"></script>
 
-
+</body>
 </html>

@@ -125,6 +125,42 @@ let User = function () {
         }
     }
 
+    let _isGetAttribut = function(attributeId){
+        user = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
+
+        try {
+            user.takedAttributes.forEach(function(itemId){
+                console.log("userget", itemId);
+                if(itemId == attributeId){
+                    console.log("ok", itemId);
+                    throw "break";
+                }
+            });
+            return false;
+
+        }catch (e) {
+            return true;
+        }
+
+
+    }
+
+    let isTakedAttributes = function(attributes){
+        try {
+            attributes.forEach(function(attribute){
+                if(!_isGetAttribut(attribute)){
+                    console.log("false");
+                    throw "break";
+                }
+            });
+            return true;
+
+        }catch (e) {
+            return false;
+        }
+
+    }
+
 
     let _receiveSocket = function(socket){
 
@@ -134,14 +170,24 @@ let User = function () {
         });
 
 
+        socket.on('user.getPrice', function(message) {
+            console.log(message);
+            $('#price').text(message.data);
+        });
+
+
+
         socket.on('user.error', function(message) {
             console.log(message.data);
-            $.snackbar({content: message.data});
+
+            toastr.warning(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: message.data});
         });
 
         socket.on('user.log', function(message) {
             console.log(message.data);
-            $.snackbar({content: message.data});
+            toastr.error(message.data,'Fout!',{timeOut: 3000});
+            //$.snackbar({content: message.data});
         });
 
     }
@@ -150,7 +196,8 @@ let User = function () {
     return {
         init: init,
         updateGetMessage:updateGetMessage,
-        shoot:shoot
+        shoot:shoot,
+        isTakedAttributes:isTakedAttributes
     };
 
 }();

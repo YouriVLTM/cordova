@@ -154,7 +154,8 @@ let GameSettings = function () {
         //error
         socket.on('games.error', function(message) {
             console.log(message.data);
-            $.snackbar({content: message.data});
+            toastr.warning(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: message.data});
         });
 
 

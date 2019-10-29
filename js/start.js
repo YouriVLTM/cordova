@@ -1,6 +1,10 @@
 $(function(){
+    $( "head,#navigation,#content,#footer" ).hide();
+    loader();
 
-    document.addEventListener("deviceready", onDeviceReady, false);
+
+
+
 
     // canvas maken
 
@@ -62,6 +66,22 @@ $(function(){
 
 
 });
+function loader(){
+    $( "head" ).append($('<div>').load( "template/head.html" ));
+    $( "#navigation" ).load( "template/navigation.html" );
+    $( "#footer" ).load( "template/footer.html" );
+}
+
+// word geladen
+$(window).on("load",function(){
+    setTimeout( function(){
+        $(".screenLoader").hide();
+        $( "head,#navigation,#content,#modalvesters,#footer" ).show();
+    }  , 1500 );
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+});
+
 function onDeviceReady() {
 
     console.log('Device is ready');

@@ -14,7 +14,8 @@ let Localstoragegame = function () {
             return localStorage.getItem(variable);
         } catch (err) {
             console.log("Error : Can't find storage ");
-            $.snackbar({content: "Error : Can't find storage "});
+            toastr.error(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: "Error : Can't find storage "});
         }
     };
 
@@ -23,7 +24,8 @@ let Localstoragegame = function () {
             return localStorage.removeItem(variable);
         } catch (err) {
             console.log("Error : Can't remove storage ");
-            $.snackbar({content: "Error : Can't remove storage "});
+            toastr.error(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: "Error : Can't remove storage "});
         }
     };
 

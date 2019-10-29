@@ -23,7 +23,7 @@ let Maps = function () {
 
 
 
-        socket.emit('maps.getDeviceMarker', {gameId:gameId,userId:use});
+         socket.emit('maps.getDeviceMarker', {gameId:gameId,userId:use});
 
         //map.one(plugin.google.maps.event.MAP_READY, _onMapInit);
 
@@ -195,36 +195,63 @@ let Maps = function () {
 
     }
 
+    let _getUser
+
 
     let collisionDetectionMarkers = function(Location){
         var markers = _multiCollisionDetectionMarkers(Location);
 
+
+
+
+
         //taken
         markers.forEach(function(marker){
-            console.log("ye");
-            $('.modal-title').text("attribuut");
-            $('.modal-text').text("U heeft een attribuut gevangen: \n" + marker.title);
-            $('.modal-img').attr("src",marker.icon.url);
-            $('.modal-img').width(marker.icon.size.width);
-            $('.modal-img').height(marker.icon.size.height);
+            // kan take up raided
+            raidedTake = false;
 
 
-            $('#addAttribute').attr("data-id",marker.id);
-            $('#canceledAttribute').attr("data-id",marker.id);
-            $('#addAttributeModal').modal("show");
-            marker.taked = true;
+            if(marker.type == "raided"){
+                // kijken welke item bezit
+                items = marker.raided.item
 
-            user = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
-
-            // set Messages
-            message = {
-                "message":{
-                    "title" : marker.title,
-                    "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' ></img>",
-                    "readUsers" : ["Agent","Prisoner"]
-
+                if(User.isTakedAttributes(items)){
+                    // mag opnemen
+                    raidedTake = true;
                 }
-            };
+
+            }
+
+            console.log(raidedTake);
+
+            if(marker.type != "raided" || raidedTake ){
+                user = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
+
+                $('.modal-title').text("attribuut");
+                $('.modal-text').text("U heeft een attribuut gevangen: \n" + marker.title);
+                $('.modal-img').attr("src",marker.icon.url);
+                $('.modal-img').width(marker.icon.size.width);
+                $('.modal-img').height(marker.icon.size.height);
+
+
+                $('#addAttribute').attr("data-id",marker.id);
+                $('#canceledAttribute').attr("data-id",marker.id);
+                $('#addAttributeModal').modal("show");
+                marker.taked = true;
+
+
+
+                // set Messages
+                message = {
+                    "message":{
+                        "title" : marker.title,
+                        "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' ></img>",
+                        "readUsers" : ["Agent","Prisoner"]
+
+                    }
+                };
+
+            }
 
         });
 
@@ -239,7 +266,7 @@ let Maps = function () {
             data = message.data;
             realTimeMarker = map.addMarker({
                 title: data.name,
-                label: data._shot,
+                label: data.shot,
                 position: data.location,
                 icon: {
                     url: 'img/'+data.icon,

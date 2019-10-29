@@ -87,12 +87,14 @@ let Game = function () {
         //error
         socket.on('game.error', function(message) {
             console.log(message.data);
-            $.snackbar({content: message.data});
+            toastr.error(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: message.data});
         });
 
         socket.on('game.log', function(message) {
             console.log(message.data);
-            $.snackbar({content: message.data});
+            //toastr.log(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: message.data});
         });
 
     }
