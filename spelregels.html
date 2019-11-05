@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Home</title>
+
+
+</head>
+<body>
+
+<div class="screenLoader">
+
+    <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+</div>
+
+
+
+
+
+
+<div id="navigation"></div>
+
+<div class="content mb-4">
+    <a class="btn btn-default ml-3" href="index.html"><i class="fas fa-arrow-left text-light"></i></a>
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-lg-12 ">
+                <div class="header-content mx-auto text-center">
+                    <h1 class="display-4 font-weight-normal text-light"><span class="text-default">Spel</span>regels</h1>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="content bg-light">
+
+    <div class="container h-100 ">
+        <div class="row h-100">
+            <div class="col-lg-12 ">
+                <div class="header-content mx-auto mt-4">
+                    <h3 class="display-6 font-weight-normal text-primary">Informatie</h3>
+                    <div class="row ml-2">
+                        <div class="col-12">
+                           <p>In het
+                               spel zijn er twee personage de gevangenen en de agenten. Pas op want de
+                               gevangen zijn ontsnapt uit de gevangenis en proberen te vluchten naar het
+                               buitenland. Maar ze moeten eerst nog een som geld hebben. Het spel gaat dus
+                               als volgt : de gevangen krijgen op hun app een live kaart beschikbaar waarop
+                               alle misdrijf voorwerpen zijn verstopt. De bedoeling is dat de gevangen deze
+                               voorwerpen moeten oprapen door naar de best betreffende locatie te wandelen/lopen.
+                               Als ze een aantal voorwerpen bemachtigen hebben kunnen ze een misdrijf plegen.
+                               De misdrijven leveren geld op. Bij 5 miljoen euro kunnen de gevangen naar het buitenland vertrekken
+                               en zijn ze gewonnen. Om ca. 3 min krijgen de gevangen een update waar de agenten zich patrouilleren. Zo
+                               kunnen zij zich verweren tegen de kogels van de agenten. De taak van agenten zijn om zo snel mogelijk de
+                               ontsnapte gevangen neer te schieten. Ook zij krijgen een kaart ter beschikking waarop ze live kunnen volgen
+                               waar alle agenten patrouilleren. Om de ca. 6 min krijgen de agenten een update waar de gevangen zich mogelijk
+                               bevinden. Wanneer de agenten, de gevangen hebben kunnen neerschieten is het spel afgelopen. Let op want de gevangen
+                               hebben ook een geweer. Zij kunnen onopgemerkt ook de agenten neerschieten. Dan zal de agent terug naar het hoofkwartier
+                               moeten gaan om de wonden te verzorgen. Let op : Voor dit spel moet u minstens 2 smartphones ter beschikking hebben.</p>
+                        </div>
+                    </div>
+                    <h3 class="display-6 font-weight-normal text-primary">Personages</h3>
+                    <div class="row">
+                        <div class="col-12">
+
+
+                            <!-- Card -->
+                            <div class="card text-center mt-3 p-5" data-toggle="modal" data-target="#prisonerModal">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <img class="personage img-fluid" src="img/prisoner.png">
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="card-title">De dief</h4>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Card -->
+
+                            <!-- Card -->
+                            <div class="card text-center mt-3 p-5" data-toggle="modal" data-target="#agentModal">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <img class="personage img-fluid" src="img/agent.png">
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="card-title">De agent</h4>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Card -->
+
+                            <!-- Card -->
+                            <div class="card text-center mt-3 mb-3 p-5" data-toggle="modal" data-target="#adminModal">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <img class="personage img-fluid" src="img/admin.png">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="card-title">De admin</h4>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Card -->
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="prisonerModal" tabindex="-1" role="dialog" aria-labelledby="prisonerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="prisonerModalLabel">De dief</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Beschrijving</h3>
+                <p>De dief is net ontsnapt uit de gevangenis en gaat naar het buitenland vertrekken.
+                Maar hij moet eerst geldt verdienen. Waardoor hij nog snel probeerd overvallen te plegen.</p>
+                <h3>Voorwerpen</h3>
+                <p>Hij moet eerst voorwerpen rapen vooralleer hij een overal kan plegen.
+                    Als hij de voorwerpen heeft opgeraapt die hij nodig heeft voor een overval.
+                    Dan pas kan hij een overval plegen. Eenmaal een overval gepleegt verdient hij geldt.</p>
+                <p>Voorwerp</p>
+                <img src="img/info/voorwerp.png" alt="" class="locationImg">
+                <p>Overval</p>
+                <img src="img/info/overval.png" alt="" class="locationImg">
+
+                <h3>Locatie</h3>
+                <p>Om de 3 min krijg hij een update waar de agent zich bevinden. Let op want om de 6 min krijgt de agent de locatie van de dief.</p>
+                <img src="img/info/locatieagent.jpg" alt="" class="locationImg">
+                <h3>Functie's</h3>
+                    <ul class="list-unstyled">
+                        <li><p><b>Schiet functie :</b> Hij krijgt 3 kogels hiermee kan hij een agent doodschieten.
+                        Waarbij de agent verwondingen oploop moet hij terug naar het hooftkwartier om deze wonden te laten genezen.</p></li>
+                        <li><p><b>Zoom functie :</b> Hierbij wordt u terug ingezoomt waar u bent. </p></li>
+                        <li><p><b>Spel beindingen :</b> Wanneer u niet meer wild deelnemen kan u ontmiddelijk het spel verlaten</p></li>
+
+                    </ul>
+               <h3>Doel</h3>
+                <p>Te winnen door meer dan 5 miljoen buit te maken met de overvallen die hij pleegt.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="agentModal" tabindex="-1" role="dialog" aria-labelledby="agentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agentModalLabel">De agent</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Beschrijving</h3>
+                <p>De agent heeft een oproep gekregen dat er een dief is ontsnapt. </p>
+
+                <h3>Locatie</h3>
+                <p>Om de 6 min krijg u een update waar de dieven zich bevinden. Let op want om de 3 min krijgt de dief de locatie van de agent.</p>
+                <img src="img/info/locatieprisoner.png" alt="" class="locationImg">
+                <h3>Functie's</h3>
+                <ul class="list-unstyled">
+                    <li><p><b>Schiet functie :</b> Hij krijgt 3 kogels hiermee kan hij een dief doodschieten.
+                        Waarbij het spel onmiddelijk beindicht wordt.</p></li>
+                    <li><p><b>Zoom functie :</b> Hierbij wordt u terug ingezoomt waar u bent. </p></li>
+                    <li><p><b>Spel beindingen :</b> Wanneer u niet meer wild deelnemen kan u ontmiddelijk het spel verlaten</p></li>
+                </ul>
+                <h3>Doel</h3>
+                <p>De dieven neer te schieten.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adminModalLabel">De admin</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Beschrijving</h3>
+                <p>De admin heeft recht op alles en ziet elke locatie van de personen.</p>
+                <h3>Doel</h3>
+                <p>De admin doet niet mee met het spel maar kan opserveren waar iederen zich bevinden.
+                Waarbij hij het spel in gaten kan houden. In dit spel is het niet noodzakelijk om een admin gebruiker te laten deelnemen. </p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="js/lib2/jquery-3.4.1.min.js"></script>
+
+<script type="text/javascript" src="cordova.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/lib2/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/lib2/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/lib2/mdb.min.js"></script>
+
+
+<script src="js/class/localStorage.js"></script>
+<script src="js/infoscherm.js"></script>
+
+
+
+</body>
+</html>

@@ -1,11 +1,25 @@
 //Follow live location
+/**
+ *
+ * @type {{isTakedAttributes, init, shoot, updateGetMessage}}
+ * @class User
+ */
 let User = function () {
+    /** @global */
     let gameId;
     let userId;
     let user;
     let LatLng;
     let debugCounter = 0;
 
+    /**
+     *
+     *
+     * @param socket
+     * @param map
+     * @constructor Userinit
+     *
+     */
     let init = function(socket,map){
         socket.on('connect', function() {
             console.log("connection");
@@ -38,9 +52,20 @@ let User = function () {
 
     };
 
+    /**
+     *
+     * @param freq
+     * @private
+     * @method _setupWatchAllUsers
+     */
     let _setupWatchAllUsers = function(freq){
         activeWatchAllUsers = setInterval(_getLocationAllUsers, freq);
     }
+
+    /**
+     * @function _getLocationAllUsers
+     * @private
+     */
 
     let _getLocationAllUsers = function(){
         Socket.conn().emit('game.getAllUserLocation', {gameId:gameId});
@@ -62,6 +87,9 @@ let User = function () {
             });
     }
 
+    /**
+     * @method updateGetMessage
+     */
     let updateGetMessage = function(){
         // kijken of er een bericht binnen is
         Game.getMessage(Socket.conn(),{gameId:gameId,userId:userId});
@@ -144,6 +172,8 @@ let User = function () {
 
 
     }
+
+
 
     let isTakedAttributes = function(attributes){
         try {

@@ -1,5 +1,14 @@
+/**
+ *
+ * @type {{removeLocalStorageGame, setLocalStorageGame, getLocalStorageGame}}
+ */
 let Localstoragegame = function () {
 
+    /**
+     *
+     * @param variable
+     * @param data
+     */
     let setLocalStorageGame = function (variable, data) {
         try {
             localStorage.setItem(variable, data);

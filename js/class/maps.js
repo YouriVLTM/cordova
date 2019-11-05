@@ -1,3 +1,7 @@
+/**
+ *
+ * @type {{init, getMarkerAttribuut, collisionDetectionMarkers, updateUsersLocation, updateUserLocation, zoomRealTimeMarker, getMessage, collisionDetectionUsers}}
+ */
 let Maps = function () {
     let map;
     let realTimeMarker;
@@ -228,7 +232,7 @@ let Maps = function () {
                 user = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
 
                 $('.modal-title').text("attribuut");
-                $('.modal-text').text("U heeft een attribuut gevangen: \n" + marker.title);
+                $('.modal-text').html("U heeft een attribuut gevangen: \n" + marker.title);
                 $('.modal-img').attr("src",marker.icon.url);
                 $('.modal-img').width(marker.icon.size.width);
                 $('.modal-img').height(marker.icon.size.height);
@@ -245,7 +249,7 @@ let Maps = function () {
                 message = {
                     "message":{
                         "title" : marker.title,
-                        "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' ></img>",
+                        "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' class='iconAttribute' ></img>",
                         "readUsers" : ["Agent","Prisoner"]
 
                     }

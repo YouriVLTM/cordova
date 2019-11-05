@@ -1,3 +1,7 @@
+/**
+ *
+ * @type {{init, conn}}
+ */
 let Socket = function () {
     let socket
     var mes;

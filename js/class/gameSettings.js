@@ -1,3 +1,7 @@
+/**
+ *
+ * @type {{setName, init, addUserPage, addNewGame, getCountPrisoner, getAllGames, getAllPlaces, setPlaceId, createNewUser, getCountAgent, goToMaps}}
+ */
 let GameSettings = function () {
     let gameId;
     let elementedite;

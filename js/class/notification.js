@@ -1,3 +1,4 @@
+
 let notification = function () {
     let gameId;
 
@@ -5,7 +6,7 @@ let notification = function () {
         console.log('Notification');
     };
 
-    let
+
 
     return {
         init: init

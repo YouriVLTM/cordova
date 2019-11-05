@@ -1,3 +1,7 @@
+/***
+ *
+ * @type {{init, getMessage, popupMessage}}
+ */
 let Game = function () {
     let gameId;
     let userId;
@@ -51,7 +55,7 @@ let Game = function () {
             if(!jQuery.isEmptyObject(message)) {
                 mes = message.data;
                 console.log(mes);
-                $('#messageTitle').text(mes.title);
+                $('#messageTitle').html(mes.title);
                 $('#messageText').html(mes.message);
 
 
@@ -68,7 +72,6 @@ let Game = function () {
                 console.log(message);
                 if(message.data.length > 0){
                     $.each(message.data, function(i,messag){
-
                         messages.push(message.data[i]);
                     });
 
