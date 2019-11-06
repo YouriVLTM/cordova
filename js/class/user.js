@@ -1,11 +1,9 @@
-//Follow live location
-/**
+/***
  *
  * @type {{isTakedAttributes, init, shoot, updateGetMessage}}
  * @class User
  */
 let User = function () {
-    /** @global */
     let gameId;
     let userId;
     let user;
@@ -14,11 +12,10 @@ let User = function () {
 
     /**
      *
-     *
-     * @param socket
-     * @param map
-     * @constructor Userinit
-     *
+     * Init the 'User'
+     * @constructs User
+     * @param {Socket} socket - the connection
+     * @param {Maps} maps - init map
      */
     let init = function(socket,map){
         socket.on('connect', function() {
@@ -53,17 +50,17 @@ let User = function () {
     };
 
     /**
-     *
+     * setup
+     * @memberof User#
      * @param freq
      * @private
-     * @method _setupWatchAllUsers
      */
     let _setupWatchAllUsers = function(freq){
         activeWatchAllUsers = setInterval(_getLocationAllUsers, freq);
     }
 
     /**
-     * @function _getLocationAllUsers
+     * @memberof User#
      * @private
      */
 
@@ -71,14 +68,28 @@ let User = function () {
         Socket.conn().emit('game.getAllUserLocation', {gameId:gameId});
     }
 
+
+    /**
+     * @memberof User#
+     * @param freq
+     * @private
+     */
     let _setupWatch = function(freq){
         activeWatch = setInterval(_watchLocation, freq);
     }
-
+    /**
+     * @memberof User#
+     * @param freq
+     * @private
+     */
     let _setupMessage = function(freq){
         activeWatch = setInterval(updateGetMessage, freq);
     }
 
+    /**
+     * @memberof User#
+     * @private
+     */
     let _watchLocation = function(){
         navigator.geolocation.getCurrentPosition(
             updateLocation,
@@ -88,14 +99,17 @@ let User = function () {
     }
 
     /**
-     * @method updateGetMessage
+     * @memberof User#
      */
     let updateGetMessage = function(){
         // kijken of er een bericht binnen is
         Game.getMessage(Socket.conn(),{gameId:gameId,userId:userId});
     }
 
-
+    /**
+     * @memberof User#
+     * @param position
+     */
     let updateLocation = function(position) {
         //var location = new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         // get Game Id
@@ -135,11 +149,19 @@ let User = function () {
 
     }
 
+    /**
+     * @memberof User#
+     * @param error
+     */
     function updateLocationError(error) {
         alert('code: '    + error.code    + '\n' +
             'message: ' + error.message + '\n');
     }
 
+    /**
+     * @memberof User#
+     * @param socket
+     */
     let shoot = function(socket){
         us = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
         var detectUsers = Maps.collisionDetectionUsers(us);
@@ -153,6 +175,12 @@ let User = function () {
         }
     }
 
+    /**
+     * @memberof User#
+     * @param attributeId
+     * @returns {boolean}
+     * @private
+     */
     let _isGetAttribut = function(attributeId){
         user = JSON.parse(Localstoragegame.getLocalStorageGame("user"));
 
@@ -174,7 +202,11 @@ let User = function () {
     }
 
 
-
+    /**
+     * @memberof User#
+     * @param attributes
+     * @returns {boolean}
+     */
     let isTakedAttributes = function(attributes){
         try {
             attributes.forEach(function(attribute){
@@ -191,7 +223,11 @@ let User = function () {
 
     }
 
-
+    /**
+     * @memberof User#
+     * @param socket
+     * @private
+     */
     let _receiveSocket = function(socket){
 
         socket.on('game.getAllUserLocation', function(message) {
@@ -222,7 +258,9 @@ let User = function () {
 
     }
 
-
+    /**
+     *
+     */
     return {
         init: init,
         updateGetMessage:updateGetMessage,

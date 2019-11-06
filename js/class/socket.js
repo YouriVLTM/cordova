@@ -1,11 +1,17 @@
-/**
+/***
  *
  * @type {{init, conn}}
+ * @property {socket} socket - the connection
+ * @class Socket
+ *
  */
 let Socket = function () {
     let socket
     var mes;
 
+    /**
+     * @constructor Socket
+     */
     let init = function(){
         try{
             socket = io.connect('https://game.yourivanlaer.be:3000',{'multiplex': false});
@@ -19,12 +25,12 @@ let Socket = function () {
 
     };
 
-
+    /**
+     * @memberof Socket#
+     * @returns {socket}
+     */
     let conn = function(){
         return socket;
-
-    }
-    let receive = function(){
 
     }
 

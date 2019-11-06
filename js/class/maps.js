@@ -1,6 +1,7 @@
-/**
+/***
  *
  * @type {{init, getMarkerAttribuut, collisionDetectionMarkers, updateUsersLocation, updateUserLocation, zoomRealTimeMarker, getMessage, collisionDetectionUsers}}
+ * @class Maps
  */
 let Maps = function () {
     let map;
@@ -9,6 +10,12 @@ let Maps = function () {
     let UsersMarker = new Map();
     let message = null;
 
+    /**
+     * @constructs Maps
+     * @param {Socket} socket - the connection
+     * @param  mapp - init map
+     * @param gameId
+     */
     let init = function(socket,gameId,mapp){
         map = mapp;
 
@@ -36,15 +43,29 @@ let Maps = function () {
         _onMapInit(socket,gameId);
     };
 
+    /**
+     * @memberof Maps#
+     * @returns {*}
+     */
     let getMessage = function(){
         return message;
     }
 
+    /**
+     * @memberof Maps#
+     * @param socket
+     * @param gameId
+     * @private
+     */
     let _onMapInit = function(socket,gameId){
         // get maps
         socket.emit('maps.getMaps', {gameId:gameId});
     }
 
+    /**
+     * @memberof Maps#
+     * @param loca
+     */
     let updateUserLocation = function(loca){
         // Set posistion
         realTimeMarker.setPosition(loca);
@@ -53,7 +74,11 @@ let Maps = function () {
     }
 
 
-
+    /**
+     * @memberof Maps#
+     * @param users
+     * @returns {*}
+     */
     let removeDeviceLocation = function(users){
         userId = Localstoragegame.getLocalStorageGame("userId");
         users.forEach((user, index) => {
@@ -64,6 +89,10 @@ let Maps = function () {
         return users;
     }
 
+    /**
+     * @memberof Maps#
+     * @param use
+     */
     let updateUsersLocation = function(use){
         users = removeDeviceLocation(use);
         users.forEach(function(user){
@@ -80,6 +109,10 @@ let Maps = function () {
         });
     }
 
+    /**
+     * @memberof Maps#
+     * @param user
+     */
     let addNewUsersMarker = function(user){
         if(user.location != null){
 
@@ -101,7 +134,10 @@ let Maps = function () {
 
 
     }
-
+    /**
+     * @memberof Maps#
+     * @param location
+     */
     let zoomRealTimeMarker = function(location){
         map.animateCamera({
             target:{lat: 51.1462244, lng: 5.0027229},
@@ -112,6 +148,10 @@ let Maps = function () {
         });
     }
 
+    /**
+     * @memberof Maps#
+     * @param location
+     */
     let updateCamera = function(location){
         map.animateCamera({
             target: location,
@@ -122,6 +162,13 @@ let Maps = function () {
 
     }
 
+    /**
+     * @memberof Maps#
+     * @param firstLocation
+     * @param secondLocation
+     * @returns {boolean}
+     * @private
+     */
     let _collisionDetection = function(firstLocation,secondLocation){
         if(firstLocation != null && secondLocation!= null){
 
@@ -136,6 +183,12 @@ let Maps = function () {
         return false;
     }
 
+    /**
+     * @memberof Maps#
+     * @param Location
+     * @returns {Array}
+     * @private
+     */
     let _multiCollisionDetectionMarkers = function(Location){
         var collisions = [];
         mapMarkers.forEach(function(marker){
@@ -148,6 +201,12 @@ let Maps = function () {
         return collisions;
     }
 
+    /**
+     * @memberof Maps#
+     * @param Location
+     * @returns {Array}
+     * @private
+     */
     let _multiCollisionDetectionUsers = function(Location){
         var collisions = [];
 
@@ -164,6 +223,12 @@ let Maps = function () {
         return collisions;
     }
 
+    /**
+     * @memberof Maps#
+     * @param markerId
+     * @returns {*}
+     * @private
+     */
     let _getMarker = function(markerId){
         var ma;
         mapMarkers.forEach(function(marker){
@@ -175,6 +240,11 @@ let Maps = function () {
         return ma;
     }
 
+    /**
+     * @memberof Maps#
+     * @param latlng
+     * @private
+     */
     let _makeCircle = function(latlng){
         var circle = map.addCircle({
             center: latlng,
@@ -186,7 +256,10 @@ let Maps = function () {
     }
 
 
-
+    /**
+     * @memberof Maps#
+     * @param markerId
+     */
     let getMarkerAttribuut = function(markerId){
         marker = _getMarker(markerId);
         console.log(marker);
@@ -194,6 +267,11 @@ let Maps = function () {
 
     }
 
+    /**
+     * @memberof Maps#
+      * @param user
+     * @returns {Array}
+     */
     let collisionDetectionUsers = function(user){
         return _multiCollisionDetectionUsers(user.location);
 
@@ -201,7 +279,10 @@ let Maps = function () {
 
     let _getUser
 
-
+    /**
+     * @memberof Maps#
+     * @param Location
+     */
     let collisionDetectionMarkers = function(Location){
         var markers = _multiCollisionDetectionMarkers(Location);
 
@@ -262,6 +343,11 @@ let Maps = function () {
     }
 
 
+    /**
+     * @memberof Maps#
+     * @param socket
+     * @private
+     */
     let _receiveSocket = function(socket){
 
         socket.on('maps.getDeviceMarker', function(message) {
@@ -309,7 +395,9 @@ let Maps = function () {
 
     }
 
-
+    /**
+     * @memberof Maps#
+     */
     return {
         init: init,
         updateUserLocation:updateUserLocation,

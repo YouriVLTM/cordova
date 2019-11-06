@@ -1,11 +1,12 @@
 /**
  *
  * @type {{removeLocalStorageGame, setLocalStorageGame, getLocalStorageGame}}
+ * @Class Localstoragegame
  */
 let Localstoragegame = function () {
 
     /**
-     *
+     * @memberof Localstoragegame#
      * @param variable
      * @param data
      */
@@ -18,6 +19,11 @@ let Localstoragegame = function () {
         }
     };
 
+    /**
+     * @memberof Localstoragegame#
+     * @param variable
+     * @returns {string}
+     */
     let getLocalStorageGame = function (variable) {
         try {
             return localStorage.getItem(variable);
@@ -27,7 +33,10 @@ let Localstoragegame = function () {
             //$.snackbar({content: "Error : Can't find storage "});
         }
     };
-
+    /**
+     * @memberof Localstoragegame#
+     * @param variable
+     */
     let removeLocalStorageGame = function (variable) {
         try {
             return localStorage.removeItem(variable);
@@ -39,7 +48,9 @@ let Localstoragegame = function () {
     };
 
 
-
+    /**
+     * @memberof Localstoragegame#
+     */
     return {
         setLocalStorageGame: setLocalStorageGame,
         getLocalStorageGame: getLocalStorageGame,
