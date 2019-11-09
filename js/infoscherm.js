@@ -22,6 +22,6 @@ $(window).on("load",function(){
     setTimeout( function(){
         $(".screenLoader").hide();
         $( "head,#navigation,.content,#modalvesters,#footer" ).show();
-    }  , 0 );
+    }  , 1500 );
 
 });

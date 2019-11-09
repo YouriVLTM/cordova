@@ -1,10 +1,7 @@
 $(function(){
-    // load html
+    // load html page
     $( "head,#navigation,#content,#modalvesters,#footer" ).hide();
     loader();
-
-
-
 
     document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -16,6 +13,7 @@ $(function(){
         //TODO kijken of game wel effectief bestaat (server site)
         window.location = "start.html";
     }
+
 });
 function loader(){
     $( "head" ).load( "template/head.html" );
@@ -28,11 +26,10 @@ function onDeviceReady() {
 
 }
 
-// word geladen
+// Load The page
 $(window).on("load",function(){
     setTimeout( function(){
         $(".screenLoader").hide();
         $( "head,#navigation,#content,#modalvesters,#footer" ).show();
     }  , 1500 );
-
 });

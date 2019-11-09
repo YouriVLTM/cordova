@@ -1,37 +1,43 @@
 /***
  *
  * @type {{init, conn}}
- * @property {socket} socket - the connection
  * @class Socket
- *
  */
 let Socket = function () {
     let socket
     var mes;
 
     /**
-     * @constructor Socket
+     * @classdesc A class of Socket interact with the connection to te server
+     * @author youri Van Laer
+     *
+     * @description Initialize this new socket try to make a socket connection with the server.
+     *
+     * @constructs Socket
+     *
      */
     let init = function(){
         try{
             socket = io.connect('https://game.yourivanlaer.be:3000',{'multiplex': false});
+
+            socket.on('connect', function() {
+                console.log("connection");
+            });
+
         }catch{
             alert("Error: lost connection!");
             window.location = 'index.html';
-            //socket = io.connect('http://192.168.112.161:8080',{'multiplex': false});
         }
-
         console.log('Socket connection');
-
     };
 
     /**
+     * The socket connection.
      * @memberof Socket#
-     * @returns {socket}
+     * @returns {socket} socket - Give the socket connection
      */
     let conn = function(){
         return socket;
-
     }
 
         return {

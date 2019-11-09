@@ -27,49 +27,27 @@
 <div id="navigation"></div>
 
 
-<section>
-
-
-
+<section class="bg-dark">
 
     <button type="button" class="btn btn-default zoomUser">Zoom In</button>
     <button type="button" class="btn btn-success shootButton">Shoot</button>
     <button type="button" class="btn btn-danger stopGame">Stop game</button>
 
-    <div id="map_canvas"></div>
-
-<div class="container mt-3">
-        <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="img/raided/one.png" class='iconAttribute' alt="">
-                <br>
-                <img src='img/attribute/cut.png' class='iconAttribute'/> + <img src='img/attribute/gun.png' class='iconAttribute' />  <span class="text-light">= 100 euro</span>
-
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="img/raided/two.png" class='iconAttribute' alt="">
-                <br>
-
-                <img src='img/attribute/cut.png' class='iconAttribute'/> + <img src='img/attribute/gun.png' class='iconAttribute' />  <span class="text-light">= 100 euro</span>
+    <span class="pl-4 text-light"> <span id="price">?</span> euro</span>
+</section>
 
 
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="img/raided/three.png" class='iconAttribute' alt="">
-                <br>
+<div id="map_canvas"></div>
 
-                <img src='img/attribute/cut.png' class='iconAttribute'/> + <img src='img/attribute/gun.png' class='iconAttribute' />  <span class="text-light">= 100 euro</span>
+<section class="bg-dark">
+<div class="container pt-3">
+        <div class="row" id="viewAttribute">
 
 
-            </div>
-            <div class="col-6">
-
-            </div>
         </div>
 
     <p id="location">?</p>
 
-    <p class="text-light"> <span id="price">?</span> euro</p>
 </div>
 </section>
 
@@ -125,9 +103,6 @@
 
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="https://game.yourivanlaer.be:3000/socket.io/socket.io.js"></script>
-<!--<script type="text/javascript" src="http://192.168.112.161:8080/socket.io/socket.io.js"></script>-->
-
-
 <script src="js/lib/jquery.min.js"></script>
 <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
 
@@ -144,7 +119,7 @@
 
 <script src="js/class/socket.js"></script>
 <script src="js/class/gameSettings.js"></script>
-<script src="js/class/localStorage.js"></script>
+<script src="js/class/localStoragegame.js"></script>
 <script src="js/class/game.js"></script>
 <script src="js/class/maps.js"></script>
 <script src="js/class/user.js"></script>

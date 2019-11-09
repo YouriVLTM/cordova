@@ -6,11 +6,8 @@ $(function(){
     document.addEventListener("deviceready", onDeviceReady, false);
 
     $(".personalities").on("click", function(){
-        console.log("persone",$(this).attr("data-personalitie"));
         GameSettings.personalitie = $(this).attr("data-personalitie");
-
         $('#StartsetUsernameModel').modal('show');
-
         // leegmaken
         $('#setUserName').val('');
 
@@ -18,15 +15,11 @@ $(function(){
 
     $("#setUsernameButton").on("click", function(){
         console.log("New user name");
-        GameSettings.createNewUser(Socket.conn(),GameSettings.gameId,$('#setUserName').val(),GameSettings.personalitie);
+        GameSettings.createNewUser(Localstoragegame.getGameId(),$('#setUserName').val(),GameSettings.personalitie);
         $('#StartsetUsernameModel').modal('hide');
 
         // Go to Maps
-        GameSettings.goToMaps(Socket.conn(),GameSettings.gameId);
-
-
-        //reload
-        //getAllcounters();
+        GameSettings.goToMaps(Localstoragegame.getGameId());
     });
 
 
@@ -45,22 +38,19 @@ $(window).on("load",function(){
         $(".screenLoader").hide();
         $( "head,#navigation,#content,#modalvesters,#footer" ).show();
     }  , 1500 );
-
 });
 
 function onDeviceReady() {
     console.log('Device is ready');
     Socket.init();
+    Localstoragegame.init();
     GameSettings.init(Socket.conn());
-    // get game ID
-    GameSettings.gameId = Localstoragegame.getLocalStorageGame("gameId");
-    console.log("GameSettings id",GameSettings.gameId);
 
     //load counters
     getAllcounters();
 }
 function getAllcounters(){
     console.log("oke functions tart");
-    GameSettings.getCountAgent(Socket.conn(),GameSettings.gameId);
-    GameSettings.getCountPrisoner(Socket.conn(),GameSettings.gameId);
+    GameSettings.getCountAgent(Localstoragegame.getGameId());
+    GameSettings.getCountPrisoner(Localstoragegame.getGameId());
 }

@@ -1,4 +1,32 @@
-/***
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: gameSettings.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: gameSettings.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/***
  *
  * @type {{setName, init, addUserPage, addNewGame, getCountPrisoner, getAllGames, getAllPlaces, setPlaceId, createNewUser, getCountAgent, goToMaps}}
  * @Class GameSettings
@@ -44,7 +72,7 @@ let GameSettings = function () {
     let addNewGame = function(gameName){
         _initSocket.emit('games.createNewGame', {name : gameName});
         // get games
-        getAllGames();
+        getAllGames(socket);
     };
 
     /**
@@ -158,39 +186,39 @@ let GameSettings = function () {
             $.each(message.data, function(i, game) {
 
 
-                $('                    <div class="col-sm-12 col-md-6 col-lg-4">\n' +
-                    '                        <!-- Card -->\n' +
-                    '                        <div class="card mb-4 grey darken-3">\n' +
+                $('                    &lt;div class="col-sm-12 col-md-6 col-lg-4">\n' +
+                    '                        &lt;!-- Card -->\n' +
+                    '                        &lt;div class="card mb-4 grey darken-3">\n' +
                     '\n' +
-                    '                            <!--Card image-->\n' +
-                    '                            <div class="view overlay">\n' +
-                    '                                <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/06/24/11/06/board-2437446_960_720.jpg" alt="Card image cap">\n' +
-                    '                                <a href="#!">\n' +
-                    '                                    <div class="mask rgba-white-slight"></div>\n' +
-                    '                                </a>\n' +
-                    '                            </div>\n' +
+                    '                            &lt;!--Card image-->\n' +
+                    '                            &lt;div class="view overlay">\n' +
+                    '                                &lt;img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/06/24/11/06/board-2437446_960_720.jpg" alt="Card image cap">\n' +
+                    '                                &lt;a href="#!">\n' +
+                    '                                    &lt;div class="mask rgba-white-slight">&lt;/div>\n' +
+                    '                                &lt;/a>\n' +
+                    '                            &lt;/div>\n' +
                     '\n' +
-                    '                            <!--Card content-->\n' +
-                    '                            <div class="card-body">\n' +
+                    '                            &lt;!--Card content-->\n' +
+                    '                            &lt;div class="card-body">\n' +
                     '\n' +
-                    '                                <!--Title-->\n' +
-                    '                                <h4 class="card-title text-light" onclick="changeGameName(this)" data-gameId='+game.id+'>'+game.name+'</h4>\n' +
-                    '                                <!--Text-->\n' +
-                    '\n' +
-                    '\n' +
-                    '                                <p class="text-light text-left" onclick="changePlace(this)" data-gameId='+game.id+'> <i class="fas fa-map-marker-alt"></i> <span>'+game.placeName+'</span></p>\n' +
-                    '                                <p class="text-light text-left"><i class="far fa-user"></i> <span>'+game.users.length+'</span></p>\n' +
-                    '\n' +
-                    '                                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->\n' +
-                    '                                <button type="button" class="btn btn-dark-green btn-md btn-block" onclick="addUserPage(this)" data-gameId='+game.id+'>Start</button>\n' +
-                    '\n' +
-                    '                            </div>\n' +
+                    '                                &lt;!--Title-->\n' +
+                    '                                &lt;h4 class="card-title text-light" onclick="changeGameName(this)" data-gameId='+game.id+'>'+game.name+'&lt;/h4>\n' +
+                    '                                &lt;!--Text-->\n' +
                     '\n' +
                     '\n' +
-                    '                        </div>\n' +
-                    '                        <!-- Card -->\n' +
+                    '                                &lt;p class="text-light text-left" onclick="changePlace(this)" data-gameId='+game.id+'> &lt;i class="fas fa-map-marker-alt">&lt;/i> &lt;span>'+game.placeName+'&lt;/span>&lt;/p>\n' +
+                    '                                &lt;p class="text-light text-left">&lt;i class="far fa-user">&lt;/i> &lt;span>'+game.users.length+'&lt;/span>&lt;/p>\n' +
                     '\n' +
-                    '                    </div>').addClass('newClass').appendTo('#cardGameList');
+                    '                                &lt;!-- Provides extra visual weight and identifies the primary action in a set of buttons -->\n' +
+                    '                                &lt;button type="button" class="btn btn-dark-green btn-md btn-block" onclick="addUserPage(this)" data-gameId='+game.id+'>Start&lt;/button>\n' +
+                    '\n' +
+                    '                            &lt;/div>\n' +
+                    '\n' +
+                    '\n' +
+                    '                        &lt;/div>\n' +
+                    '                        &lt;!-- Card -->\n' +
+                    '\n' +
+                    '                    &lt;/div>').addClass('newClass').appendTo('#cardGameList');
             });
 
         });
@@ -214,7 +242,7 @@ let GameSettings = function () {
             $("#placeList").empty();
 
             $.each(receiv, function(i, place) {
-                $("#placeList").append( "<li class='list-group-item bg-dark text-light' data-locationId='"+ place.id +"'>" + place.name + "</li>" );
+                $("#placeList").append( "&lt;li class='list-group-item bg-dark text-light' data-locationId='"+ place.id +"'>" + place.name + "&lt;/li>" );
             });
 
         });
@@ -307,4 +335,26 @@ let GameSettings = function () {
         createNewUser:createNewUser,
         goToMaps:goToMaps
     };
-}();
+}();</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li><li><a href="GameSettings.html">GameSettings</a></li><li><a href="Localstoragegame.html">Localstoragegame</a></li><li><a href="Maps.html">Maps</a></li><li><a href="Socket.html">Socket</a></li><li><a href="User.html">User</a></li></ul><h3>Events</h3><ul><li><a href="Game.html#event:gameError">gameError</a></li><li><a href="Game.html#event:gameLog">gameLog</a></li><li><a href="Game.html#event:getMessage">getMessage</a></li><li><a href="Game.html#event:getMessages">getMessages</a></li><li><a href="GameSettings.html#event:gameSettingsError">gameSettingsError</a></li><li><a href="GameSettings.html#event:getAll">getAll</a></li><li><a href="GameSettings.html#event:getAllPlace">getAllPlace</a></li><li><a href="GameSettings.html#event:getCountAgent">getCountAgent</a></li><li><a href="GameSettings.html#event:getCountPrisoner">getCountPrisoner</a></li><li><a href="GameSettings.html#event:getUser">getUser</a></li><li><a href="GameSettings.html#event:goToMaps">goToMaps</a></li><li><a href="Maps.html#event:getDeviceMarker">getDeviceMarker</a></li><li><a href="Maps.html#event:getMaps">getMaps</a></li><li><a href="Maps.html#event:mapsError">mapsError</a></li><li><a href="User.html#event:getAllUserLocation">getAllUserLocation</a></li><li><a href="User.html#event:getPrice">getPrice</a></li><li><a href="User.html#event:userError">userError</a></li><li><a href="User.html#event:userLog">userLog</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Nov 09 2019 14:19:18 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

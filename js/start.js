@@ -2,10 +2,6 @@ $(function(){
     $( "head,#navigation,#content,#footer" ).hide();
     loader();
 
-
-
-
-
     // canvas maken
 
     // Create a Google Maps native view under the map_canvas div.
@@ -31,11 +27,8 @@ $(function(){
         // input game leegmaken
         //$('#addAttributeModal').modal("hide");
         var attributeId = $('#addAttribute').attr("data-id");
-        console.log(Game.gameId);
-        console.log(Game.userId);
         // save to server
-        console.log("Message", Maps.getMessage().message);
-        Socket.conn().emit('user.addAttribute', {gameId:Game.gameId,userId:Game.userId,attributeId:attributeId,message:Maps.getMessage().message});
+        Socket.conn().emit('user.addAttribute', {gameId:Localstoragegame.getGameId(),userId:Localstoragegame.getUserId(),attributeId:attributeId,message:Maps.getMessage().message});
         // change Markers
         Maps.getMarkerAttribuut(attributeId);
 
@@ -45,10 +38,8 @@ $(function(){
         // input game leegmaken
         //$('#addAttributeModal').modal("hide");
         var attributeId = $('#canceledAttribute').attr("data-id");
-        console.log(Game.gameId);
-        console.log(Game.userId);
         // save to server
-        Socket.conn().emit('user.canceledAttribute', {gameId:Game.gameId,userId:Game.userId,attributeId:attributeId});
+        Socket.conn().emit('user.canceledAttribute', {gameId:Localstoragegame.getGameId(),userId:Localstoragegame.getUserId(),attributeId:attributeId});
 
     });
 
@@ -56,8 +47,7 @@ $(function(){
     //shoot function
     $(".shootButton").on("click", function(){
         // kijken of er iemand in de buurt is
-        User.shoot(Socket.conn());
-
+        User.shoot();
     });
 
 
@@ -66,6 +56,7 @@ $(function(){
 
 
 });
+
 function loader(){
     $( "head" ).append($('<div>').load( "template/head.html" ));
     $( "#navigation" ).load( "template/navigation.html" );
@@ -86,6 +77,7 @@ function onDeviceReady() {
 
     console.log('Device is ready');
     Socket.init();
+    Localstoragegame.init();
     Game.init(Socket.conn());
 
     //maps init
@@ -300,10 +292,9 @@ function onDeviceReady() {
         ]
     });
 
-    Maps.init(Socket.conn(),Game.gameId,map);
+    Maps.init(Socket.conn(),Localstoragegame.getGameId(),Localstoragegame.getUserId(),map);
 
     //User
-
-    User.init(Socket.conn(),Maps.map);
+    User.init(Socket.conn(),Localstoragegame.getGameId(),Localstoragegame.getUserId());
 
 }

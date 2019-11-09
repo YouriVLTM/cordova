@@ -1,12 +1,10 @@
 $(function(){
     //load page
-
     $( "head,#navigation,#content,#footer" ).hide();
     loader();
 
 
     document.addEventListener("deviceready", onDeviceReady, false);
-
 
     // Button Start new game
     $("#startNewGameModal").on("click", function(){
@@ -18,54 +16,44 @@ $(function(){
     $('#startNewGame').click(function () {
         var gameName = $('input#newGameName').val();
         // add new game
-        GameSettings.addNewGame(Socket.conn(),gameName);
+        GameSettings.addNewGame(gameName);
         //leegmaken voor de volgende
         $('input#recipient-name').val('');
-
     });
 
     $("#setGameNameButton").on("click", function(){
-        console.log("Change name");
-
         //socket
-        GameSettings.setName(Socket.conn(),GameSettings.gameId,$('input#setGameName').val());
-
-        // reload
+        GameSettings.setName(Localstoragegame.getGameId(),$('input#setGameName').val());
+        // reload Game
         GameSettings.getAllGames(Socket.conn());
-
-
-        //If location already exist or not
-        //GameSettings.getGameLocation(Socket.conn());
     });
 
     // reload button
     $('#reloadnewgames').click(function () {
-        GameSettings.getAllGames(Socket.conn());
+        GameSettings.getAllGames();
     });
 
-    //locatie keuze
+    //Select location choise
     $("ul#placeList").on("click","li", function(){
-        console.log($(this).text(), $(this).attr("data-locationId"));
-        console.log("game",GameSettings.gameId);
         // save new place
-        GameSettings.setPlaceId(Socket.conn(),GameSettings.gameId,$(this).attr("data-locationId"));
-
+        GameSettings.setPlaceId(Localstoragegame.getGameId(),$(this).attr("data-locationId"));
+        // hide modal screen
         $('#setPlaceModal').modal('hide');
-
         // reload
-        GameSettings.getAllGames(Socket.conn());
+        GameSettings.getAllGames();
     });
-
-
-
-    // start GameSettings
-
-
-
-
 
 
 });
+
+function onDeviceReady() {
+    console.log('Device is ready');
+    //Functions
+    Socket.init();
+    Localstoragegame.init();
+    GameSettings.init(Socket.conn());
+}
+
 
 // show model
 function changeGameName(elem){
@@ -73,21 +61,22 @@ function changeGameName(elem){
     $('input#setGameName').val($(elem).text());
     $('#StartsetGameNameModel').modal('show');
     // save gameId
-    GameSettings.gameId = $(elem).attr("data-gameId");
+    Localstoragegame.setGameId($(elem).attr("data-gameId"));
+    //Localstoragegame.gameId = $(elem).attr("data-gameId");
+    //GameSettings.gameId = $(elem).attr("data-gameId");
 
 }
 
 function changePlace(elem){
-    console.log("change place");
     // Get location names
     GameSettings.getAllPlaces(Socket.conn());
 
     // show modal
     $('#setPlaceModal').modal('show');
-
-
     // save gameId
-    GameSettings.gameId = $(elem).attr("data-gameId");
+    Localstoragegame.setGameId($(elem).attr("data-gameId"));
+    //Localstoragegame.gameId = $(elem).attr("data-gameId");
+    //GameSettings.gameId = $(elem).attr("data-gameId");
     // miss
     GameSettings.elementedite = elem;
 
@@ -95,20 +84,7 @@ function changePlace(elem){
 
 
 function addUserPage(elem){
-    console.log("Go to users");
-    // change game
-    console.log($(elem).attr("data-gameId"));
-
     GameSettings.addUserPage(Localstoragegame,$(elem).attr("data-gameId"));
-}
-
-function onDeviceReady() {
-    console.log('Device is ready');
-    //socket function
-    Socket.init();
-    console.log('OKE');
-    GameSettings.init(Socket.conn());
-    //LocalStorage.init();
 }
 
 function loader(){
@@ -117,11 +93,10 @@ function loader(){
     $( "#footer" ).load( "template/footer.html" );
 }
 
-// word geladen
+// Load The page
 $(window).on("load",function(){
     setTimeout( function(){
         $(".screenLoader").hide();
         $( "head,#navigation,#content,#modalvesters,#footer" ).show();
     }  , 1500 );
-
 });

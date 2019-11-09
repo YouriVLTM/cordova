@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: localStoragegame.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: localStoragegame.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ *
+ * @type {{init,setGameId,getGameId,setUser,getUser,removeLocalStorageGame, setLocalStorageGame, getLocalStorageGame}}
+ * @Class Localstoragegame
+ */
+let Localstoragegame = function () {
+    let gameId;
+    let user;
+
+    let init = function(){
+        gameId = getLocalStorageGame("gameId");
+        user = JSON.parse(getLocalStorageGame("user"));
+    }
+
+
+    /**
+     * Set Game id and local storage
+     * @memberof Localstoragegame#
+     * @param {Int} Id - The game Id
+     */
+    let setGameId = function(Id){
+        //variable
+        gameId = Id;
+
+        //local storage
+        setLocalStorageGame("gameId", Id);
+    }
+
+    /**
+     * Get game Id
+     * @returns {Int} gameId - The game Id
+     */
+    let getGameId = function(){
+        return gameId;
+    }
+
+    /**
+     * Get User Id
+     * @returns {Int} userId - The user Id
+     */
+    let getUserId = function(){
+        return getUser().id;
+    }
+
+
+    /**
+     * Set user value and local storage
+     * @memberof Localstoragegame#
+     * @param {Json} data - Information about User
+     *
+     */
+    let setUser = function(data){
+        // variable
+        user = data;
+
+        //local storage
+        setLocalStorageGame("user",user);
+    }
+
+    /**
+     * Get User value
+     * @memberof Localstoragegame#
+     * @returns {Json} User - get User information
+     */
+    let getUser = function(){
+        return user;
+    }
+
+    /**
+     * @memberof Localstoragegame#
+     * @param variable
+     * @param data
+     */
+    let setLocalStorageGame = function (variable, data) {
+        try {
+            localStorage.setItem(variable, data);
+        } catch (err) {
+            console.log("Error : Can't storage ");
+            $.snackbar({content: "Error : Can't storage "});
+        }
+    };
+
+    /**
+     * @memberof Localstoragegame#
+     * @param variable
+     * @returns {string}
+     */
+    let getLocalStorageGame = function (variable) {
+        try {
+            return localStorage.getItem(variable);
+        } catch (err) {
+            console.log("Error : Can't find storage ");
+            toastr.error(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: "Error : Can't find storage "});
+        }
+    };
+    /**
+     * @memberof Localstoragegame#
+     * @param variable
+     */
+    let removeLocalStorageGame = function (variable) {
+        try {
+            return localStorage.removeItem(variable);
+        } catch (err) {
+            console.log("Error : Can't remove storage ");
+            toastr.error(message.data,'Fout!',{"timeOut": 3000});
+            //$.snackbar({content: "Error : Can't remove storage "});
+        }
+    };
+
+
+    /**
+     * @memberof Localstoragegame#
+     */
+    return {
+        init:init,
+        setGameId:setGameId,
+        getGameId:getGameId,
+        setUser:setUser,
+        getUser:getUser,
+        getUserId:getUserId,
+        setLocalStorageGame: setLocalStorageGame,
+        getLocalStorageGame: getLocalStorageGame,
+        removeLocalStorageGame:removeLocalStorageGame
+    };
+
+}();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li><li><a href="GameSettings.html">GameSettings</a></li><li><a href="Localstoragegame.html">Localstoragegame</a></li><li><a href="Maps.html">Maps</a></li><li><a href="Socket.html">Socket</a></li><li><a href="User.html">User</a></li></ul><h3>Events</h3><ul><li><a href="Game.html#event:gameError">gameError</a></li><li><a href="Game.html#event:gameLog">gameLog</a></li><li><a href="Game.html#event:getMessage">getMessage</a></li><li><a href="Game.html#event:getMessages">getMessages</a></li><li><a href="GameSettings.html#event:gameSettingsError">gameSettingsError</a></li><li><a href="GameSettings.html#event:getAll">getAll</a></li><li><a href="GameSettings.html#event:getAllPlace">getAllPlace</a></li><li><a href="GameSettings.html#event:getCountAgent">getCountAgent</a></li><li><a href="GameSettings.html#event:getCountPrisoner">getCountPrisoner</a></li><li><a href="GameSettings.html#event:getUser">getUser</a></li><li><a href="GameSettings.html#event:goToMaps">goToMaps</a></li><li><a href="Maps.html#event:getDeviceMarker">getDeviceMarker</a></li><li><a href="Maps.html#event:getMaps">getMaps</a></li><li><a href="Maps.html#event:mapsError">mapsError</a></li><li><a href="User.html#event:getAllUserLocation">getAllUserLocation</a></li><li><a href="User.html#event:getPrice">getPrice</a></li><li><a href="User.html#event:userError">userError</a></li><li><a href="User.html#event:userLog">userLog</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Nov 09 2019 14:19:18 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
