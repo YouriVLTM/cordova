@@ -8,6 +8,17 @@ let User = function () {
     let _initGameId;
     let _initUserId;
     let _initSocket;
+    // min
+    let _agentTimer = 1;
+    // min
+    let _prisonerTimer = 2;
+
+
+
+    //stopwatch
+    let _stopwatchAgent = new Date();
+    let _stopwatchPrisoner = new Date();
+
     let LatLng;
     let debugCounter = 0;
 
@@ -46,9 +57,68 @@ let User = function () {
 
         _setupWatch(2000);
         _setupMessage(2000);
-        _setupWatchAllUsers(3000);
+
+
+        //Location update other users
+         //rules
+         if(Localstoragegame.getUser()._function == "Agent"){
+             _setupWatchAgent(2000);
+             _setupWatchPrisoner(_prisonerTimer * 60000);
+         }else if(Localstoragegame.getUser()._function == "Prisoner"){
+             _setupWatchAgent(_agentTimer * 60000);
+             _setupWatchPrisoner(2000);
+         }else{
+             _setupWatchAllUsers(2000);
+         }
 
     };
+
+    let getStopwatchTimeLeft = function(){
+        currentTime = new Date();
+        if(Localstoragegame.getUser()._function == "Agent"){
+            time = (currentTime.getTime() - _stopwatchPrisoner);
+
+            timeBackMin = _prisonerTimer - (time / 60000);
+
+            min = Math.floor( timeBackMin );
+            sec = Math.round( (timeBackMin - min ) * 60 );
+            //"Dief update locatie: " +
+            return min + " : " + sec;
+        }else if(Localstoragegame.getUser()._function == "Prisoner"){
+            time = (currentTime.getTime() - _stopwatchAgent.getTime());
+
+            timeBackMin = _agentTimer - (time / 60000);
+
+            min = Math.floor( timeBackMin );
+            sec = Math.round( (timeBackMin - min ) * 60 );
+            //"Agent update locatie: " +
+            return min + " : " + sec;
+        }else{
+            return "Live";
+        }
+    }
+
+    let _setupWatchAgent = function(freq){
+        activeWatchAgent = setInterval(_getLocationAllAgent, freq);
+    }
+
+    let _getLocationAllAgent = function(){
+        _initSocket.emit('game.getAllAgentLocation', {gameId:_initGameId});
+        _stopwatchAgent = new Date();
+    }
+
+
+
+    let _setupWatchPrisoner = function(freq){
+        activeWatchPrisoner = setInterval(_getLocationAllPrisoner, freq);
+    }
+
+
+
+    let _getLocationAllPrisoner = function(){
+        _initSocket.emit('game.getAllPrisonerLocation', {gameId:_initGameId});
+        _stopwatchPrisoner = new Date();
+    }
 
     /**
      * Set a streaming line to watch all users location.
@@ -121,8 +191,8 @@ let User = function () {
 
         // debug settings
         //console.log(position);
-        debugCounter+=1;
-        $('#location').text(position.coords.latitude+ ' ' + position.coords.longitude+ ' '+ debugCounter);
+        //debugCounter+=1;
+        //$('#location').text(position.coords.latitude+ ' ' + position.coords.longitude+ ' '+ debugCounter);
 
 
         // get google plugin location
@@ -166,26 +236,14 @@ let User = function () {
 
     /**
      * This user as a shoot function.
-     *  - If there is a other User around this User.
-     *  - then this user hit the other user
-     *  - else this user miss
-     *
-     *  and lose one shoot.
+     * Get all paramaters from de server
      *
      * @memberof User#
      * @param {Socket} socket - Give the socket connection
      */
     let shoot = function(){
-        us = Localstoragegame.getUser();
-        var detectUsers = Maps.collisionDetectionUsers(us);
-        // kijken of misshot
-        if(detectUsers.length > 0){
-            console.log("hit");
-            _initSocket.emit('user.hitShot', {gameId:_initGameId,userId:_initUserId,detectUsers});
-        }else {
-            console.log("lose");
-            _initSocket.emit('user.loseShot', {gameId:_initGameId,userId:_initUserId});
-        }
+        // shot uitvoeren
+        _initSocket.emit('user.shot', {gameId:_initGameId,userId:_initUserId});
     }
 
     /**
@@ -262,9 +320,24 @@ let User = function () {
          *
          */
         _initSocket.on('game.getAllUserLocation', function(message) {
+            // if counter is ok
             Maps.updateUsersLocation(message.data);
             Localstoragegame.setLocalStorageGame("users",JSON.stringify(message.data));
         });
+
+
+        _initSocket.on('game.getAllAgentLocation', function(message) {
+            // if counter is ok
+            Maps.updateUsersLocation(message.data);
+            //Localstoragegame.setLocalStorageGame("users",JSON.stringify(message.data));
+        });
+
+        _initSocket.on('game.getAllPrisonerLocation', function(message) {
+            // if counter is ok
+            Maps.updateUsersLocation(message.data);
+            //Localstoragegame.setLocalStorageGame("users",JSON.stringify(message.data));
+        });
+
 
         /**
          *
@@ -278,6 +351,47 @@ let User = function () {
         _initSocket.on('user.getPrice', function(message) {
             $('#price').text(message.data);
         });
+
+
+        /**
+         *
+         *  - If there is a other User around this User.
+         *  - then this user hit the other user
+         *  - else this user miss
+         *
+         *  and lose one shoot.
+         *
+         *
+         */
+        _initSocket.on('user.shot', function(message) {
+            console.log(message.data);
+            // count teller down
+            $('#counterShot').text(message.data[0].shot);
+
+            us = Localstoragegame.getUser();
+            var detectUsers = Maps.collisionDetectionUsers(us,message.data);
+            // kijken of misshot
+            if(detectUsers.length > 0){
+                console.log("hit");
+                var message = {};
+                message.title = "";
+                _initSocket.emit('user.hitShot', {gameId:_initGameId,userId:_initUserId,detectUsers:detectUsers,message: message });
+            }else {
+                console.log("lose");
+                _initSocket.emit('user.loseShot', {gameId:_initGameId,userId:_initUserId});
+            }
+
+        });
+
+
+        _initSocket.on('user.reloadShot', function(message) {
+            console.log(message.data);
+            $('#counterShot').text(message.data);
+
+            toastr.success("reload Shots",'Reload!',{"timeOut": 3000});
+
+        });
+
 
 
 
@@ -313,7 +427,8 @@ let User = function () {
         init: init,
         updateGetMessage:updateGetMessage,
         shoot:shoot,
-        isTakedAttributes:isTakedAttributes
+        isTakedAttributes:isTakedAttributes,
+        getStopwatchTimeLeft:getStopwatchTimeLeft
     };
 
 }();

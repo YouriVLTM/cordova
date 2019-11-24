@@ -142,16 +142,15 @@ let Maps = function () {
             UsersMarker.set(user.id, newMarker);
         }
 
-
     }
     /**
      * Zoom in on this user.
      * @memberof Maps#
      * @param {json} location - Set location of the camera
      */
-    let zoomRealTimeMarker = function(location){
+    let zoomRealTimeMarker = function(){
         map.animateCamera({
-            target:{lat: 51.1462244, lng: 5.0027229},
+            target:Localstoragegame.getUser().location,
             zoom:16,
             tilt: 0,
             bearing: 0,
@@ -236,15 +235,16 @@ let Maps = function () {
      *
      * @private
      */
-    let _multiCollisionDetectionUsers = function(Location){
+    let _multiCollisionDetectionUsers = function(FirstUser,users){
         var collisions = [];
 
         // get users
-        users = JSON.parse(Localstoragegame.getLocalStorageGame("users"));
         users.forEach(function(user){
             if(user != null){
-                if(_collisionDetection(Location,user.location)){
-                    collisions.push(user);
+                if(_collisionDetection(FirstUser.location,user.location)){
+                    if(FirstUser.id != user.id){
+                        collisions.push(user);
+                    }
                 }
             }
 
@@ -315,8 +315,8 @@ let Maps = function () {
      *
      * @returns {Array}
      */
-    let collisionDetectionUsers = function(user){
-        return _multiCollisionDetectionUsers(user.location);
+    let collisionDetectionUsers = function(user,users){
+        return _multiCollisionDetectionUsers(user,users);
 
     }
 
@@ -329,7 +329,6 @@ let Maps = function () {
      */
     let collisionDetectionMarkers = function(Location){
         var markers = _multiCollisionDetectionMarkers(Location);
-
 
         //taken
         markers.forEach(function(marker){
@@ -348,34 +347,49 @@ let Maps = function () {
 
             }
 
-            console.log(raidedTake);
-
-            if(marker.type != "raided" || raidedTake ){
-                user = Localstoragegame.getUser();
-
-                $('.modal-title').text("attribuut");
-                $('.modal-text').html("U heeft een attribuut gevangen: \n" + marker.title);
-                $('.modal-img').attr("src",marker.icon.url);
-                $('.modal-img').width(marker.icon.size.width);
-                $('.modal-img').height(marker.icon.size.height);
 
 
-                $('#addAttribute').attr("data-id",marker.id);
-                $('#canceledAttribute').attr("data-id",marker.id);
-                $('#addAttributeModal').modal("show");
-                marker.taked = true;
+            // if type
+            if((marker.type == "item" || marker.type=="raided") && Localstoragegame.getUser()._function == "Prisoner"){
+                if(marker.type != "raided" || raidedTake ){
+                    user = Localstoragegame.getUser();
+
+                    $('.modal-title').text("attribuut");
+                    $('.modal-text').html("U heeft een attribuut gevangen: \n" + marker.title);
+                    $('.modal-img').attr("src",marker.icon.url);
+                    $('.modal-img').width(marker.icon.size.width);
+                    $('.modal-img').height(marker.icon.size.height);
+
+
+                    $('#addAttribute').attr("data-id",marker.id);
+                    $('#canceledAttribute').attr("data-id",marker.id);
+                    $('#addAttributeModal').modal("show");
+                    marker.taked = true;
 
 
 
-                // set Messages
-                message = {
-                    "message":{
-                        "title" : marker.title,
-                        "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' class='iconAttribute' ></img>",
-                        "readUsers" : ["Agent","Prisoner"]
+                    // set Messages
+                    message = {
+                        "message":{
+                            "title" : marker.title,
+                            "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' class='iconAttribute' ></img>",
+                            "readUsers" : ["Agent","Prisoner"]
 
-                    }
-                };
+                        }
+                    };
+
+                }
+            }
+
+
+
+            /// basecamp
+            if(marker.type == "basecamp"){
+                // kijken of het hun basecamp is
+                if(marker.function == Localstoragegame.getUser()._function){
+                    // kijken of hij nog voldoende kogels heeft
+                    _initSocket.emit('user.reloadShot', {gameId:_initGameId,userId:_initUserId});
+                }
 
             }
 
@@ -449,10 +463,12 @@ let Maps = function () {
             });
 
             // add viewAttribute
+            //leegmaken
+            $('#viewAttribute').text('');
             $.each(data, function(i, attr) {
                 if(attr.type == "raided"){
                     //console.log(attr);
-                   html = "<div class=\"col-12 col-sm-12 col-md-6 col-lg-4\"><img src='"+ attr.icon.url +"' class=\"iconAttribute\" alt=\"\"><span class=\"text-light\">= " + attr.raided.price +" euro</span><br>";
+                   html = "<div class=\"col-6 col-sm-6 col-md-6 col-lg-4\"><img src='"+ attr.icon.url +"' class=\"iconAttribute\" alt=\"\"><span class=\"text-light\">= " + attr.raided.price +" euro</span><br>";
                     $.each(attr.raided.item, function(ite, at) {
                         html += "<img src='"+ data[at].icon.url +"' class=\"iconAttribute\">";
 

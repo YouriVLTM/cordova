@@ -2,14 +2,28 @@ $(function(){
     $( "head,#navigation,#content,#footer" ).hide();
     loader();
 
-    // canvas maken
+    // Set the basic kamp
+    $('#basecampModal').modal("show");
 
-    // Create a Google Maps native view under the map_canvas div.
+    $("#basecampStart").on("click", function(){
+       console.log("user",Localstoragegame.getUser());
+       //kijken welke gebruiker
+        Socket.conn().emit('game.start', {gameId:Localstoragegame.getGameId(),user:Localstoragegame.getUser()});
+        // kaart updaten
+        Socket.conn().emit('maps.getMaps', {gameId:Localstoragegame.getGameId()});
+    });
+
+    $(".reloadMap").on("click", function(){
+        // kaart updaten
+        Socket.conn().emit('maps.getMaps', {gameId:Localstoragegame.getGameId()});
+    });
+
+
 
     // ready
     $(".zoomUser").on("click", function(){
         // input game leegmaken
-        Maps.zoomRealTimeMarker(User.LatLng);
+        Maps.zoomRealTimeMarker();
     });
 
     // stop
@@ -52,6 +66,12 @@ $(function(){
 
 
 
+    // get stopwatch timer
+    setInterval(function(){
+        $('#stopwatch').text(User.getStopwatchTimeLeft());
+    }, 1000);
+
+
 
 
 
@@ -73,6 +93,13 @@ $(window).on("load",function(){
 
 });
 
+// voor dat deze pagina herlaad
+$(window).bind('beforeunload', function(){
+    // socket verbinding verlaten group
+    Socket.conn().emit('user.leave', {gameId:Localstoragegame.getGameId(),userId:Localstoragegame.getUserId()});
+});
+
+
 function onDeviceReady() {
 
     console.log('Device is ready');
@@ -85,7 +112,7 @@ function onDeviceReady() {
     var map = plugin.google.maps.Map.getMap(div, {
         controls: {
             compass: true
-        },
+        }/*,
         styles: [
             {
                 "elementType": "geometry",
@@ -289,7 +316,7 @@ function onDeviceReady() {
                     }
                 ]
             }
-        ]
+        ]*/
     });
 
     Maps.init(Socket.conn(),Localstoragegame.getGameId(),Localstoragegame.getUserId(),map);

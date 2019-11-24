@@ -6065,3 +6065,10 @@ body {
 
 .locationImg {
   width: 100%; }
+
+.rounded-objects {
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%; }

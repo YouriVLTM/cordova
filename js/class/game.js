@@ -87,6 +87,12 @@ let Game = function () {
                 console.log(mes);
                 $('#messageTitle').html(mes.title);
                 $('#messageText').html(mes.message);
+                $('#messsageButton').html(mes.buttonName);
+                if(mes.buttonUrl != null){
+                    $('#messsageButton').attr('data-dismiss','');
+                    $('#messsageButton').attr('href', mes.buttonUrl);
+                }
+
                 //popup
                 $('#addMessageModal').modal('show');
             }
