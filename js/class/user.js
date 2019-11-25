@@ -225,7 +225,11 @@ let User = function () {
 
 
         //local update
-        Localstoragegame.getUser().location = {lat:loca.lat,lng:loca.lng};
+        Localstoragegame.getUser().location = loca;
+        //us = Localstoragegame.getUser();
+        //console.log(loca);
+        //us.location = loca;
+        //Localstoragegame.setUserObject(JSON.stringify(us));
 
 
         // update location to server
@@ -297,7 +301,7 @@ let User = function () {
         try {
             attributes.forEach(function(attribute){
                 if(!_isGetAttribut(attribute)){
-                    console.log("false");
+                    //console.log("false");
                     throw "break";
                 }
             });
@@ -379,7 +383,7 @@ let User = function () {
         _initSocket.on('user.shot', function(message) {
             console.log(message.data);
             // count teller down
-            $('#counterShot').text(message.data[0].shot);
+
 
             us = Localstoragegame.getUser();
             var detectUsers = Maps.collisionDetectionUsers(us,message.data);
@@ -389,10 +393,14 @@ let User = function () {
                 var message = {};
                 message.title = "";
                 _initSocket.emit('user.hitShot', {gameId:_initGameId,userId:_initUserId,detectUsers:detectUsers,message: message });
+
             }else {
                 console.log("lose");
                 _initSocket.emit('user.loseShot', {gameId:_initGameId,userId:_initUserId});
             }
+
+            Socket.conn().emit('user.getUser', {gameId:Localstoragegame.getGameId(),userId:Localstoragegame.getUserId()});
+
 
         });
 
@@ -406,7 +414,11 @@ let User = function () {
         });
 
 
-
+        _initSocket.on('user.getUser', function(message) {
+            console.log("User",message.data);
+            Localstoragegame.setUserObject(message.data);
+            $('#counterShot').text(message.data.shot);
+        });
 
         /**
          *

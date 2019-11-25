@@ -321,6 +321,39 @@ let Maps = function () {
     }
 
     /**
+     *
+     * @param marker
+     * @private
+     */
+    let _messageCollision = function(marker){
+        user = Localstoragegame.getUser();
+
+        $('.modal-title').text("attribuut");
+        $('.modal-text').html("U heeft een attribuut gevangen: \n" + marker.title);
+        $('.modal-img').attr("src",marker.icon.url);
+        $('.modal-img').width(marker.icon.size.width);
+        $('.modal-img').height(marker.icon.size.height);
+
+
+        $('#addAttribute').attr("data-id",marker.id);
+        $('#canceledAttribute').attr("data-id",marker.id);
+        $('#addAttributeModal').modal("show");
+        marker.taked = true;
+
+
+
+        // set Messages
+        message = {
+            "message":{
+                "title" : marker.title,
+                "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' class='iconAttribute' ></img>",
+                "readUsers" : ["Agent","Prisoner"]
+
+            }
+        };
+    }
+
+    /**
      * View if there is a collision dection with a Marker
      *
      * @memberof Maps#
@@ -330,6 +363,33 @@ let Maps = function () {
     let collisionDetectionMarkers = function(Location){
         var markers = _multiCollisionDetectionMarkers(Location);
 
+        if(markers.length > 0){
+            //mark
+            mark = markers[0];
+
+            if(Localstoragegame.getUser()._function == "Prisoner"){
+                if(mark.type == "raided"){
+                    //kijken of de user attribute heeft
+                    if(User.isTakedAttributes(mark.raided.item)){
+                        _messageCollision(mark);
+                    }
+                }else if(mark.type == "item"){
+                    _messageCollision(mark);
+
+                }
+            }
+
+            if(mark.type == "basecamp"){
+                // kijken of het hun basecamp is
+                if(mark.function == Localstoragegame.getUser()._function){
+                    // kijken of hij nog voldoende kogels heeft
+                    _initSocket.emit('user.reloadShot', {gameId:_initGameId,userId:_initUserId});
+                }
+            }
+
+        }
+
+        /*
         //taken
         markers.forEach(function(marker){
             // kan take up raided
@@ -352,48 +412,14 @@ let Maps = function () {
             // if type
             if((marker.type == "item" || marker.type=="raided" || raidedTake) && Localstoragegame.getUser()._function == "Prisoner"){
                 if(marker.type != "raided" || raidedTake ){
-                    user = Localstoragegame.getUser();
 
-                    $('.modal-title').text("attribuut");
-                    $('.modal-text').html("U heeft een attribuut gevangen: \n" + marker.title);
-                    $('.modal-img').attr("src",marker.icon.url);
-                    $('.modal-img').width(marker.icon.size.width);
-                    $('.modal-img').height(marker.icon.size.height);
-
-
-                    $('#addAttribute').attr("data-id",marker.id);
-                    $('#canceledAttribute').attr("data-id",marker.id);
-                    $('#addAttributeModal').modal("show");
-                    marker.taked = true;
-
-
-
-                    // set Messages
-                    message = {
-                        "message":{
-                            "title" : marker.title,
-                            "message" : user.name + " heeft een attribuut gevangen <img src='"+ marker.icon.url +"' class='iconAttribute' ></img>",
-                            "readUsers" : ["Agent","Prisoner"]
-
-                        }
-                    };
 
                 }
             }
 
-
-
-            /// basecamp
-            if(marker.type == "basecamp"){
-                // kijken of het hun basecamp is
-                if(marker.function == Localstoragegame.getUser()._function){
-                    // kijken of hij nog voldoende kogels heeft
-                    _initSocket.emit('user.reloadShot', {gameId:_initGameId,userId:_initUserId});
-                }
-
-            }
 
         });
+        */
 
     }
 
@@ -457,6 +483,7 @@ let Maps = function () {
             data =message.data;
             console.log("getMaps", data);
             // Add markers
+            mapMarkers = [];
             var markers = data.map(function(options) {
                 mapMarkers.push(options);
                 return map.addMarker(options);

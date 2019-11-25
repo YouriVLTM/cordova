@@ -43,6 +43,14 @@ $(function(){
         var attributeId = $('#addAttribute').attr("data-id");
         // save to server
         Socket.conn().emit('user.addAttribute', {gameId:Localstoragegame.getGameId(),userId:Localstoragegame.getUserId(),attributeId:attributeId,message:Maps.getMessage().message});
+        // save local
+        /*us = Localstoragegame.getUser();
+        us.takedAttributes.push(attributeId);
+        Localstoragegame.setUser(JSON.stringify(us));*/
+        Socket.conn().emit('user.getUser', {gameId:Localstoragegame.getGameId(),userId:Localstoragegame.getUserId()});
+
+
+
         // change Markers
         Maps.getMarkerAttribuut(attributeId);
 

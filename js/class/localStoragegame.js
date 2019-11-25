@@ -57,6 +57,14 @@ let Localstoragegame = function () {
         setLocalStorageGame("user",user);
     }
 
+    let setUserObject = function(data){
+        // variable
+        user = data;
+
+        setLocalStorageGame("user",JSON.stringify(user));
+
+    }
+
     /**
      * Get User value
      * @memberof Localstoragegame#
@@ -119,6 +127,7 @@ let Localstoragegame = function () {
         setUser:setUser,
         getUser:getUser,
         getUserId:getUserId,
+        setUserObject:setUserObject,
         setLocalStorageGame: setLocalStorageGame,
         getLocalStorageGame: getLocalStorageGame,
         removeLocalStorageGame:removeLocalStorageGame
