@@ -1,9 +1,9 @@
-#Escape room
-#Install 
+# Escape room
+# Install 
 For more information:
 https://escaperoom.yourivanlaer.be/
-#Information
+# Information
 https://escaperoom.yourivanlaer.be/
-#Server
+# Server
 nodejs server
 https://github.com/YouriVLTM/GameServer
