@@ -350,7 +350,7 @@ let Maps = function () {
 
 
             // if type
-            if((marker.type == "item" || marker.type=="raided") && Localstoragegame.getUser()._function == "Prisoner"){
+            if((marker.type == "item" || marker.type=="raided" || raidedTake) && Localstoragegame.getUser()._function == "Prisoner"){
                 if(marker.type != "raided" || raidedTake ){
                     user = Localstoragegame.getUser();
 

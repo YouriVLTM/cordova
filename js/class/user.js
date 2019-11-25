@@ -73,6 +73,11 @@ let User = function () {
 
     };
 
+    /**
+     * Get string of time left before view other location.
+     * @memberof User#
+     * @returns {string}
+     */
     let getStopwatchTimeLeft = function(){
         currentTime = new Date();
         if(Localstoragegame.getUser()._function == "Agent"){
@@ -98,23 +103,39 @@ let User = function () {
         }
     }
 
+    /**
+     * Set a streaming line to watch agent location.
+     * @param freq
+     * @private
+     */
     let _setupWatchAgent = function(freq){
         activeWatchAgent = setInterval(_getLocationAllAgent, freq);
     }
 
+    /**
+     * Request to get all agent location
+     * @private
+     */
     let _getLocationAllAgent = function(){
         _initSocket.emit('game.getAllAgentLocation', {gameId:_initGameId});
         _stopwatchAgent = new Date();
     }
 
 
-
+    /**
+     * Set a streaming line to watch Prisoner location.
+     * @param freq
+     * @private
+     */
     let _setupWatchPrisoner = function(freq){
         activeWatchPrisoner = setInterval(_getLocationAllPrisoner, freq);
     }
 
 
-
+    /**
+     * Request to get all prisoner location
+     * @private
+     */
     let _getLocationAllPrisoner = function(){
         _initSocket.emit('game.getAllPrisonerLocation', {gameId:_initGameId});
         _stopwatchPrisoner = new Date();
@@ -189,11 +210,6 @@ let User = function () {
      */
     let updateLocation = function(position) {
 
-        // debug settings
-        //console.log(position);
-        //debugCounter+=1;
-        //$('#location').text(position.coords.latitude+ ' ' + position.coords.longitude+ ' '+ debugCounter);
-
 
         // get google plugin location
         var loca = new plugin.google.maps.LatLng(position.coords.latitude,position.coords.longitude);
@@ -209,10 +225,7 @@ let User = function () {
 
 
         //local update
-        //console.log(loca);
         Localstoragegame.getUser().location = {lat:loca.lat,lng:loca.lng};
-        // save local
-        //Localstoragegame.setLocalStorageGame("user",JSON.stringify(user));
 
 
         // update location to server
